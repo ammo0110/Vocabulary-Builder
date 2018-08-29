@@ -1,9 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".HomeActivity">
 
+	<TextView
+		android:id="@+id/Title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/title"
+		android:textAppearance="@style/Title"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.501"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_bias="0.153" />
+
+	<android.support.constraint.ConstraintLayout
+		android:id="@+id/menu"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/Title"
+		app:layout_constraintVertical_bias="0.504">
+
+		<TextView
+			android:id="@+id/choice1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/menu_choice1"
+			android:textAppearance="@style/MenuItem"
+			android:onClick="launchGame"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintHorizontal_bias="0.5"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintVertical_bias="0.0" />
+
+		<TextView
+			android:id="@+id/choice2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:text="@string/menu_choice2"
+			android:textAppearance="@style/MenuItem"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintHorizontal_bias="0.5"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/choice1" />
+
+		<TextView
+			android:id="@+id/choice3"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:text="@string/menu_choice3"
+			android:textAppearance="@style/MenuItem"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintHorizontal_bias="0.5"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/choice2" />
+
+	</android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
