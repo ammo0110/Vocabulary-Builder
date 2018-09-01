@@ -24,6 +24,15 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         String localPath = getFilesDir() + "/" + "PrimaryWords.db";
+        copyAssetsDBtoLocal(localPath);
+    }
+
+    @OnClick(R.id.choice1) void launchGame() {
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity(intent);
+    }
+
+    private void copyAssetsDBtoLocal(String localPath) {
         File dbFile = new File(localPath);
         Log.d(TAG, "Primary database location: " + localPath);
         if(!dbFile.exists()) {
@@ -45,10 +54,5 @@ public class HomeActivity extends AppCompatActivity {
                 Log.e(TAG, "Exception occurred: " + ex.getMessage());
             }
         }
-    }
-
-    @OnClick(R.id.choice1) void launchGame() {
-        Intent intent = new Intent(this, GameActivity.class);
-        startActivity(intent);
     }
 }

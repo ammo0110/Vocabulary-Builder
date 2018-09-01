@@ -7,6 +7,11 @@ import android.util.Log;
 
 public class WordDBOpenHelper extends SQLiteOpenHelper {
 
+    public static final String COLUMN_WORD = "Word";
+    public static final String COLUMN_TYPE = "Type";
+    public static final String COLUMN_MEANING = "ShortMeaning";
+    public static final String COLUMN_SYNONYMS = "Synonyms";
+
     public static final int DATABASE_VERSION = 1;
     public static final String TAG = "MyWordDBOpenHelper";
 
