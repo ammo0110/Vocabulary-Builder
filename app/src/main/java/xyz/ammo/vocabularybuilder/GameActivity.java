@@ -2,6 +2,7 @@ package xyz.ammo.vocabularybuilder;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
@@ -9,6 +10,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import xyz.ammo.vocabularybuilder.word.SQLiteWordEngine;
+import xyz.ammo.vocabularybuilder.word.WordEngine;
 import xyz.ammo.vocabularybuilder.word.WordTuple;
 
 public class GameActivity extends AppCompatActivity {
@@ -16,14 +18,16 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.word) TextView wordTv;
     @BindView(R.id.meaning) TextView meaningTv;
 
-    private SQLiteWordEngine engine;
+    private WordEngine engine;
     private Runnable meaningChangeRunnable;
     private static final int MILLIS_DELAY_IN_SHOWING_MEANING = 1000;
+    private static final String TAG = "MyGameActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        Log.d(TAG, "onCreate invoked");
 
         ButterKnife.bind(this);
 
@@ -51,8 +55,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy invoked");
+        engine.closeEngine();
     }
 
     private static class TextChangeRunnable implements Runnable {

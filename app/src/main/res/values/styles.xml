@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -17,5 +17,18 @@
     <style name="MenuItem" parent="TextAppearance.AppCompat">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Word" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/airforceBlue</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="Definition" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/amaranth</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 </resources>

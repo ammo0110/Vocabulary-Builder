@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">VocabularyBuilder</string>
-    <string name="title">Speed Vocab</string>
-    <string name="menu_choice1">Word Attack</string>
+    <string name="app_name">Speed Vocab</string>
+    <string name="title">Word Attack</string>
+    <string name="menu_choice1">Begin!</string>
     <string name="menu_choice2">Edit Database</string>
     <string name="menu_choice3">Settings</string>
 </resources>
