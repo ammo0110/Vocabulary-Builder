@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name = "TealButton">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
     <style name="Title" parent="TextAppearance.AppCompat">
         <item name="android:textSize">40sp</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
@@ -23,12 +28,12 @@
         <item name="android:textSize">40sp</item>
         <item name="android:textColor">@color/airforceBlue</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:fontFamily">monospace</item>
     </style>
 
     <style name="Definition" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textSize">25sp</item>
         <item name="android:textColor">@color/amaranth</item>
-        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:fontFamily">monospace</item>
     </style>
 </resources>
