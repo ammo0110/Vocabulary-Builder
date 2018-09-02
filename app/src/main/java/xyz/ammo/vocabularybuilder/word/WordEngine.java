@@ -4,5 +4,4 @@ public interface WordEngine {
 
     WordTuple getNext();
 
-    void closeEngine();
 }

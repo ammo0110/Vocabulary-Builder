@@ -12,6 +12,8 @@ public class WordDBOpenHelper extends SQLiteOpenHelper {
     public static final String COLUMN_MEANING = "ShortMeaning";
     public static final String COLUMN_SYNONYMS = "Synonyms";
 
+    public static final String TABLE_NAME = "Words";
+
     public static final int DATABASE_VERSION = 1;
     public static final String TAG = "MyWordDBOpenHelper";
 
@@ -22,6 +24,11 @@ public class WordDBOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "onCreate Invoked");
+        // Create table if it doesn't exist
+        String sql = String.format("CREATE TABLE IF NOT EXISTS %1$s(%2$s TEXT NOT NULL, %3$s TEXT, %4$s TEXT, %5$s TEXT, PRIMARY KEY(%2$s, %3$s))",
+                                    TABLE_NAME, COLUMN_WORD, COLUMN_TYPE, COLUMN_MEANING, COLUMN_SYNONYMS);
+        Log.d(TAG, "SQL query to create table: " + sql);
+        db.execSQL(sql);
     }
 
     @Override

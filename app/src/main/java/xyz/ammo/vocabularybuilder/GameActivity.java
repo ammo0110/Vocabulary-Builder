@@ -10,7 +10,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import xyz.ammo.vocabularybuilder.word.SQLiteWordEngine;
-import xyz.ammo.vocabularybuilder.word.WordEngine;
 import xyz.ammo.vocabularybuilder.word.WordTuple;
 
 public class GameActivity extends AppCompatActivity {
@@ -18,7 +17,7 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.word) TextView wordTv;
     @BindView(R.id.meaning) TextView meaningTv;
 
-    private WordEngine engine;
+    private SQLiteWordEngine engine;
     private Runnable meaningChangeRunnable;
     private static final int MILLIS_DELAY_IN_SHOWING_MEANING = 1000;
     private static final String TAG = "MyGameActivity";
@@ -31,7 +30,7 @@ public class GameActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        String localPath = getFilesDir() + "/" + "PrimaryWords.db";
+        String localPath = getIntent().getExtras().getString(HomeActivity.KEY_USERDB);
         engine = new SQLiteWordEngine(getApplicationContext(), localPath);
 
         // Show the first word on the screen

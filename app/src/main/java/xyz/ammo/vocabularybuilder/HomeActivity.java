@@ -17,23 +17,42 @@ public class HomeActivity extends AppCompatActivity {
 
     public static final String TAG = "MyHomeActivity";
 
+    // This is the database which came bundled with the app in assets folder
+    private static final String primaryDB = "PrimaryWords.db";
+    public static final String KEY_PRIMARYDB = "PrimaryDB";
+
+    // This is the database where words added by the user are stored
+    private static final String secondaryDB = "UserWords.db";
+    public static final String KEY_USERDB = "UserDB";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        String localPath = getFilesDir() + "/" + "PrimaryWords.db";
+        // Copy primary database from assets/databases to local space
+        String localPath = getFilesDir() + "/" + primaryDB;
         copyAssetsDBtoLocal(localPath);
     }
 
     @OnClick(R.id.choice1) void launchGame() {
         Intent intent = new Intent(this, GameActivity.class);
+
+        String primaryLocalPath = getFilesDir() + "/" + primaryDB;
+        String userLocalPath = getFilesDir() + "/" + secondaryDB;
+        intent.putExtra(KEY_PRIMARYDB, primaryLocalPath);
+        intent.putExtra(KEY_USERDB, userLocalPath);
+
         startActivity(intent);
     }
 
     @OnClick(R.id.fab) void launchEditDBMenu() {
         Intent intent = new Intent(this, DBEditActivity.class);
+
+        String userLocalPath = getFilesDir() + "/" + secondaryDB;
+        intent.putExtra(KEY_USERDB, userLocalPath);
+
         startActivity(intent);
     }
 

@@ -33,10 +33,9 @@ public class SQLiteWordEngine implements WordEngine {
 
         // This cursor will be used for retrieving words
         this.cur = primaryDB.rawQuery("SELECT Word, Type, ShortMeaning, Synonyms FROM Words", null);
-        this.randomize = true;
+        this.randomize = false;
     }
 
-    @Override
     public void closeEngine() {
         this.cur.close();
         this.primaryDB.close();
