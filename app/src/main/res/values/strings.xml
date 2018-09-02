@@ -2,6 +2,6 @@
     <string name="app_name">Speed Vocab</string>
     <string name="title">Word Attack</string>
     <string name="menu_choice1">Begin!</string>
-    <string name="menu_choice2">Edit Database</string>
-    <string name="menu_choice3">Settings</string>
+    <string name="menu_choice2">Settings</string>
+    <string name="edit_db_title">Add Word</string>
 </resources>

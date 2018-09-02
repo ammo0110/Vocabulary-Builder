@@ -32,6 +32,11 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.fab) void launchEditDBMenu() {
+        Intent intent = new Intent(this, DBEditActivity.class);
+        startActivity(intent);
+    }
+
     private void copyAssetsDBtoLocal(String localPath) {
         File dbFile = new File(localPath);
         Log.d(TAG, "Primary database location: " + localPath);
