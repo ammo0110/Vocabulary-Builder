@@ -4,4 +4,6 @@
     <string name="menu_choice1">Begin!</string>
     <string name="menu_choice2">Settings</string>
     <string name="edit_db_title">Add Word</string>
+    <string name="menu_game_shuffle">Shuffle</string>
+    <string name="menu_game_search">Search on Google</string>
 </resources>

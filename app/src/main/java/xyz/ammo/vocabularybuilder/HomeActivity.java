@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,6 +35,13 @@ public class HomeActivity extends AppCompatActivity {
         // Copy primary database from assets/databases to local space
         String localPath = getFilesDir() + "/" + primaryDB;
         copyAssetsDBtoLocal(localPath);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
     }
 
     @OnClick(R.id.choice1) void launchGame() {
