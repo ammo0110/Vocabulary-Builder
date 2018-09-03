@@ -11,6 +11,8 @@ import butterknife.ButterKnife;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import ru.noties.markwon.Markwon;
+
 import xyz.ammo.vocabularybuilder.word.SQLiteWordEngine;
 import xyz.ammo.vocabularybuilder.word.WordTuple;
 
@@ -95,7 +97,7 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void run() {
             if(textView != null) {
-                textView.setText(text);
+                Markwon.setMarkdown(textView, text);
             }
         }
     }
