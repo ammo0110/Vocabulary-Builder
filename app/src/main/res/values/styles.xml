@@ -29,6 +29,15 @@
         <item name="android:textColor">@color/airforceBlue</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">monospace</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Type" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/airforceBlue</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="Definition" parent="TextAppearance.AppCompat.Body1">

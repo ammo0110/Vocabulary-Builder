@@ -17,6 +17,7 @@ import xyz.ammo.vocabularybuilder.word.WordTuple;
 public class GameActivity extends AppCompatActivity {
 
     @BindView(R.id.word) TextView wordTv;
+    @BindView(R.id.type) TextView typeTv;
     @BindView(R.id.meaning) TextView meaningTv;
 
     private SQLiteWordEngine engine;
@@ -38,6 +39,7 @@ public class GameActivity extends AppCompatActivity {
         // Show the first word on the screen
         WordTuple tuple = engine.getNext();
         wordTv.setText(tuple.getWord());
+        typeTv.setText(tuple.getType());
         meaningTv.setText("");  //Empty, if user waits then show else move on
 
         meaningChangeRunnable = new TextChangeRunnable(meaningTv, tuple.getShortMeaning());
@@ -49,6 +51,7 @@ public class GameActivity extends AppCompatActivity {
 
         WordTuple tuple = engine.getNext();
         wordTv.setText(tuple.getWord());
+        typeTv.setText(tuple.getType());
         meaningTv.setText("");  //Empty, if user waits then show else move on
 
         meaningChangeRunnable = new TextChangeRunnable(meaningTv, tuple.getShortMeaning());
@@ -58,7 +61,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present
-        getMenuInflater().inflate(R.menu.menu_home, menu);
+        getMenuInflater().inflate(R.menu.menu_game, menu);
         return true;
     }
 
