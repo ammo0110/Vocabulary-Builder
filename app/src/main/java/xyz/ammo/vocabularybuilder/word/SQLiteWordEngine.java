@@ -21,7 +21,7 @@ public class SQLiteWordEngine implements WordEngine {
     public SQLiteWordEngine(Context context, String dbName) {
         this.primaryDB = new WordDBOpenHelper(context, dbName).getReadableDatabase();
 
-        Cursor temp = primaryDB.rawQuery("SELECT COUNT(Word) FROM Words", null);
+        Cursor temp = primaryDB.rawQuery(String.format("SELECT COUNT(%s) FROM %s", WordDBOpenHelper.COLUMN_WORD, WordDBOpenHelper.TABLE_NAME), null);
         if(temp.moveToFirst()) {
             this.size = temp.getInt(0);
             Log.d(TAG, "Word count is: " + size);
@@ -32,7 +32,13 @@ public class SQLiteWordEngine implements WordEngine {
         temp.close();
 
         // This cursor will be used for retrieving words
-        this.cur = primaryDB.rawQuery("SELECT Word, Type, ShortMeaning, Synonyms FROM Words", null);
+        this.cur = primaryDB.rawQuery(String.format("SELECT %s, %s, %s, %s, %s FROM %s",
+                WordDBOpenHelper.COLUMN_WORD,
+                WordDBOpenHelper.COLUMN_TYPE,
+                WordDBOpenHelper.COLUMN_MEANING,
+                WordDBOpenHelper.COLUMN_SYNONYMS,
+                WordDBOpenHelper.COLUMN_EXAMPLE,
+                WordDBOpenHelper.TABLE_NAME), null);
         this.randomize = false;
     }
 
@@ -47,12 +53,12 @@ public class SQLiteWordEngine implements WordEngine {
             Random rand = new Random();
             int index = rand.nextInt(size);
             cur.moveToPosition(index);
-            return new WordTuple(cur.getString(0), cur.getString(1), cur.getString(2), cur.getString(3));
+            return new WordTuple(cur.getString(0), cur.getString(1), cur.getString(2), cur.getString(3), cur.getString(4));
         }
         if(!cur.moveToNext()) {
             // Move cursor to the beginning
             cur.moveToFirst();
         }
-        return new WordTuple(cur.getString(0), cur.getString(1), cur.getString(2), cur.getString(3));
+        return new WordTuple(cur.getString(0), cur.getString(1), cur.getString(2), cur.getString(3), cur.getString(4));
     }
 }

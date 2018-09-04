@@ -6,12 +6,14 @@ public class WordTuple {
     private String type;
     private String shortMeaning;
     private String synonyms;
+    private String example;
 
-    public WordTuple(String word, String type, String shortMeaning, String synonyms) {
+    public WordTuple(String word, String type, String shortMeaning, String synonyms, String example) {
         this.word = word;
         this.type = type;
         this.shortMeaning = shortMeaning;
         this.synonyms = synonyms;
+        this.example = example;
     }
 
     public String getWord() {
@@ -30,6 +32,10 @@ public class WordTuple {
         return synonyms;
     }
 
+    public String getExample() {
+        return example;
+    }
+
     @Override
     public String toString() {
         StringBuffer buf = new StringBuffer();
@@ -40,6 +46,8 @@ public class WordTuple {
         buf.append(this.shortMeaning);
         buf.append(", ");
         buf.append(this.synonyms);
+        buf.append(", ");
+        buf.append(this.example);
 
         return buf.toString();
     }

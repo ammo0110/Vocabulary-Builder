@@ -20,6 +20,7 @@ public class DBEditActivity extends AppCompatActivity {
     @BindView(R.id.tiet2) TextView typeTv;
     @BindView(R.id.tiet3) TextView meaningTv;
     @BindView(R.id.tiet4) TextView synonymTv;
+    @BindView(R.id.tiet5) TextView exampleTv;
 
     private static final String TAG = "MyDBEditActivity";
 
@@ -42,6 +43,7 @@ public class DBEditActivity extends AppCompatActivity {
         values.put(WordDBOpenHelper.COLUMN_TYPE, typeTv.getText().toString());
         values.put(WordDBOpenHelper.COLUMN_MEANING, meaningTv.getText().toString());
         values.put(WordDBOpenHelper.COLUMN_SYNONYMS, synonymTv.getText().toString());
+        values.put(WordDBOpenHelper.COLUMN_EXAMPLE, exampleTv.getText().toString());
 
         if(database.insert(WordDBOpenHelper.TABLE_NAME, null, values) > 0) {
             Log.d(TAG, "Word entered in database");
@@ -51,6 +53,7 @@ public class DBEditActivity extends AppCompatActivity {
         }
         else {
             Log.e(TAG, "Error in adding word to database");
+            Toast.makeText(this, "Error! Please check the field constraints", Toast.LENGTH_SHORT).show();
         }
     }
 
