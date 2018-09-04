@@ -6,46 +6,34 @@
 	android:layout_height="match_parent"
 	tools:context=".HomeActivity">
 
-	<TextView
-		android:id="@+id/Title"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/title"
-		android:textAppearance="@style/Title"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.501"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintVertical_bias="0.153" />
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title"
+        android:textAppearance="@style/Word"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.153" />
 
-	<android.support.constraint.ConstraintLayout
-		android:id="@+id/menu"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/Title"
-		app:layout_constraintVertical_bias="0.504">
+    <Button
+        android:id="@+id/choice1"
+        style="@style/ButtonMaterial"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_choice1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/Title"
+        app:layout_constraintStart_toStartOf="@+id/Title"
+        app:layout_constraintTop_toBottomOf="@+id/Title" />
 
-		<TextView
-			android:id="@+id/choice1"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/menu_choice1"
-			android:textAppearance="@style/MenuItem"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintHorizontal_bias="0.5"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintVertical_bias="0.0" />
-
-	</android.support.constraint.ConstraintLayout>
-
-	<android.support.design.widget.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
+		style="@style/Widget.MaterialComponents.FloatingActionButton"
 		android:id="@+id/fab"
+        android:focusable="auto"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="16dp"

@@ -8,23 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name = "TealButton">
-        <item name="android:background">@drawable/rounded_button</item>
-        <item name="android:textColor">#FFFFFF</item>
+    <style name="ButtonMaterial" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="Title" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">40sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="MenuItem" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/colorAccent</item>
-    </style>
-
-    <style name="Word" parent="TextAppearance.AppCompat.Body1">
+    <style name="Word" parent="TextAppearance.AppCompat.Headline">
         <item name="android:textSize">40sp</item>
         <item name="android:textColor">@color/airforceBlue</item>
         <item name="android:textStyle">bold</item>
@@ -44,5 +33,6 @@
         <item name="android:textSize">25sp</item>
         <item name="android:textColor">@color/amaranth</item>
         <item name="android:fontFamily">monospace</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>
