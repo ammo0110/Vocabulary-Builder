@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +45,7 @@ public class DBEditActivity extends AppCompatActivity {
 
         if(database.insert(WordDBOpenHelper.TABLE_NAME, null, values) > 0) {
             Log.d(TAG, "Word entered in database");
+            Toast.makeText(this, "Word entered in database", Toast.LENGTH_SHORT).show();
             database.close();
             finish();
         }
