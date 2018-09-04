@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.BindView;
@@ -38,20 +39,29 @@ public class GameActivity extends AppCompatActivity {
         String localPath = getIntent().getExtras().getString(HomeActivity.KEY_USERDB);
         engine = new SQLiteWordEngine(getApplicationContext(), localPath);
 
-        // Show the first word on the screen
-        WordTuple tuple = engine.getNext();
-        wordTv.setText(tuple.getWord());
-        typeTv.setText(tuple.getType());
-        meaningTv.setText("");  //Empty, if user waits then show else move on
+        // If database is empty, exit game
+        if(engine.getSize() == 0) {
+            Toast.makeText(this, "Database is empty, please add a word first", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        else {
+            // Show the first word on the screen
+            WordTuple tuple = engine.getNext();
+            Log.d(TAG, "" + tuple);
+            wordTv.setText(tuple.getWord());
+            typeTv.setText(tuple.getType());
+            meaningTv.setText("");  //Empty, if user waits then show else move on
 
-        meaningChangeRunnable = new TextChangeRunnable(meaningTv, tuple.getShortMeaning());
-        meaningTv.postDelayed(meaningChangeRunnable, MILLIS_DELAY_IN_SHOWING_MEANING);
+            meaningChangeRunnable = new TextChangeRunnable(meaningTv, tuple.getShortMeaning());
+            meaningTv.postDelayed(meaningChangeRunnable, MILLIS_DELAY_IN_SHOWING_MEANING);
+        }
     }
 
     @OnClick(R.id.definition) void nextWord() {
         meaningTv.removeCallbacks(meaningChangeRunnable);
 
         WordTuple tuple = engine.getNext();
+        Log.d(TAG, "" + tuple);
         wordTv.setText(tuple.getWord());
         typeTv.setText(tuple.getType());
         meaningTv.setText("");  //Empty, if user waits then show else move on

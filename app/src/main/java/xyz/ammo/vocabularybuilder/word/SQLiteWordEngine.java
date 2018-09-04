@@ -42,6 +42,10 @@ public class SQLiteWordEngine implements WordEngine {
         this.randomize = false;
     }
 
+    public int getSize() {
+        return size;
+    }
+
     public void closeEngine() {
         this.cur.close();
         this.primaryDB.close();
