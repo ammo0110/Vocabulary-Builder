@@ -39,11 +39,11 @@ public class DBEditActivity extends AppCompatActivity {
         database = new WordDBOpenHelper(getApplicationContext(), dbPath).getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(WordDBOpenHelper.COLUMN_WORD, wordTv.getText().toString());
-        values.put(WordDBOpenHelper.COLUMN_TYPE, typeTv.getText().toString());
-        values.put(WordDBOpenHelper.COLUMN_MEANING, meaningTv.getText().toString());
-        values.put(WordDBOpenHelper.COLUMN_SYNONYMS, synonymTv.getText().toString());
-        values.put(WordDBOpenHelper.COLUMN_EXAMPLE, exampleTv.getText().toString());
+        values.put(WordDBOpenHelper.COLUMN_WORD, wordTv.getText().toString().trim());
+        values.put(WordDBOpenHelper.COLUMN_TYPE, typeTv.getText().toString().trim());
+        values.put(WordDBOpenHelper.COLUMN_MEANING, meaningTv.getText().toString().trim());
+        values.put(WordDBOpenHelper.COLUMN_SYNONYMS, synonymTv.getText().toString().trim());
+        values.put(WordDBOpenHelper.COLUMN_EXAMPLE, exampleTv.getText().toString().trim());
 
         if(database.insert(WordDBOpenHelper.TABLE_NAME, null, values) > 0) {
             Log.d(TAG, "Word entered in database");
