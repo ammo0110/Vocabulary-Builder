@@ -75,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.fab) void launchEditDBMenu() {
+    @OnClick(R.id.choice2) void launchEditDBMenu() {
         Intent intent = new Intent(this, DBEditActivity.class);
 
         String userLocalPath = getFilesDir() + "/" + secondaryDB;

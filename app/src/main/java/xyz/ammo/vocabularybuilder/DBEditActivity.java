@@ -5,6 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +36,18 @@ public class DBEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dbedit);
 
         ButterKnife.bind(this);
+
+        // Hack for emulating material theme spinners
+        AutoCompleteTextView actv = (AutoCompleteTextView)typeTv;
+        actv.setAdapter(ArrayAdapter.createFromResource(this, R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
+        actv.setKeyListener(null);
+        actv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ((AutoCompleteTextView)v).showDropDown();
+                return false;
+            }
+        });
     }
 
     @OnClick(R.id.addWordButton) void addWordToDatabase() {
