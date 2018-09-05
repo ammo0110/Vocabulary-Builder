@@ -1,15 +1,20 @@
 package xyz.ammo.vocabularybuilder;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import butterknife.OnClick;
 import butterknife.ButterKnife;
@@ -25,6 +30,9 @@ public class HomeActivity extends AppCompatActivity {
     // This is the database where words added by the user are stored
     private static final String secondaryDB = "UserWords.db";
     public static final String KEY_USERDB = "UserDB";
+
+    // This is the request code for exporting database to external storage
+    private static final int WRITE_REQUEST_CODE = 43;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +63,18 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handles presses on the action bar items
+        switch(item.getItemId()) {
+            case R.id.export_db:
+                exportDatabase();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @OnClick(R.id.fab) void launchEditDBMenu() {
         Intent intent = new Intent(this, DBEditActivity.class);
 
@@ -62,6 +82,42 @@ public class HomeActivity extends AppCompatActivity {
         intent.putExtra(KEY_USERDB, userLocalPath);
 
         startActivity(intent);
+    }
+
+    private void exportDatabase() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+
+        // Filter to only show results that can be "opened", such as
+        // a file (as opposed to a list of contacts or timezones).
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        // Create a file with the requested MIME type.
+        intent.setType("application/x-sqlite3");
+        intent.putExtra(Intent.EXTRA_TITLE, "words.db");
+        startActivityForResult(intent, WRITE_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if(requestCode == WRITE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri uri = resultData.getData();
+            Log.d(TAG, "Uri is: " + uri);
+            try {
+                String userLocalPath = getFilesDir() + "/" + secondaryDB;
+                InputStream is = new FileInputStream(userLocalPath);
+                OutputStream os = getContentResolver().openOutputStream(uri);
+                byte[] buf = new byte[1024];
+                while(is.read(buf) > 0) {
+                    os.write(buf);
+                }
+                os.flush();
+                is.close();
+                os.close();
+            }
+            catch(IOException ex) {
+                Log.e(TAG, "Exception occurred while exporting file: " + ex.getMessage());
+            }
+        }
     }
 
     private void copyAssetsDBtoLocal(String localPath) {
