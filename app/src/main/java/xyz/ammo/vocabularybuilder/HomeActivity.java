@@ -23,12 +23,8 @@ public class HomeActivity extends AppCompatActivity {
 
     public static final String TAG = "MyHomeActivity";
 
-    // This is the database which came bundled with the app in assets folder
-    private static final String primaryDB = "PrimaryWords.db";
-    public static final String KEY_PRIMARYDB = "PrimaryDB";
-
     // This is the database where words added by the user are stored
-    private static final String secondaryDB = "UserWords.db";
+    private static final String userDB = "UserWords.db";
     public static final String KEY_USERDB = "UserDB";
 
     // This is the request code for exporting database to external storage
@@ -39,10 +35,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-
-        // Copy primary database from assets/databases to local space
-        String localPath = getFilesDir() + "/" + primaryDB;
-        copyAssetsDBtoLocal(localPath);
     }
 
     @Override
@@ -55,9 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     @OnClick(R.id.choice1) void launchGame() {
         Intent intent = new Intent(this, GameActivity.class);
 
-        String primaryLocalPath = getFilesDir() + "/" + primaryDB;
-        String userLocalPath = getFilesDir() + "/" + secondaryDB;
-        intent.putExtra(KEY_PRIMARYDB, primaryLocalPath);
+        String userLocalPath = getFilesDir() + "/" + userDB;
         intent.putExtra(KEY_USERDB, userLocalPath);
 
         startActivity(intent);
@@ -78,7 +68,7 @@ public class HomeActivity extends AppCompatActivity {
     @OnClick(R.id.choice2) void launchEditDBMenu() {
         Intent intent = new Intent(this, DBEditActivity.class);
 
-        String userLocalPath = getFilesDir() + "/" + secondaryDB;
+        String userLocalPath = getFilesDir() + "/" + userDB;
         intent.putExtra(KEY_USERDB, userLocalPath);
 
         startActivity(intent);
@@ -103,16 +93,10 @@ public class HomeActivity extends AppCompatActivity {
             Uri uri = resultData.getData();
             Log.d(TAG, "Uri is: " + uri);
             try {
-                String userLocalPath = getFilesDir() + "/" + secondaryDB;
+                String userLocalPath = getFilesDir() + "/" + userDB;
                 InputStream is = new FileInputStream(userLocalPath);
                 OutputStream os = getContentResolver().openOutputStream(uri);
-                byte[] buf = new byte[1024];
-                while(is.read(buf) > 0) {
-                    os.write(buf);
-                }
-                os.flush();
-                is.close();
-                os.close();
+                dumpInputotOutout(is, os);
             }
             catch(IOException ex) {
                 Log.e(TAG, "Exception occurred while exporting file: " + ex.getMessage());
@@ -130,17 +114,22 @@ public class HomeActivity extends AppCompatActivity {
                 InputStream is = getAssets().open("databases/Words.db");
                 FileOutputStream os = new FileOutputStream(dbFile);
                 byte[] buf = new byte[1024];
-                while(is.read(buf) > 0) {
-                    os.write(buf);
-                }
-                os.flush();
-                is.close();
-                os.close();
+                dumpInputotOutout(is, os);
                 Log.d(TAG, "assets/databases/Words.db copied");
             }
             catch(IOException ex) {
                 Log.e(TAG, "Exception occurred: " + ex.getMessage());
             }
         }
+    }
+
+    private void dumpInputotOutout(InputStream is, OutputStream os) throws IOException {
+        byte[] buf = new byte[1024];
+        while(is.read(buf) > 0) {
+            os.write(buf);
+        }
+        os.flush();
+        is.close();
+        os.close();
     }
 }
