@@ -38,15 +38,17 @@ public class WordTuple {
 
     @Override
     public String toString() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
+        buf.append("#");
         buf.append(this.word);
-        buf.append(", ");
+        buf.append("\n");
+        buf.append("_");
         buf.append(this.type);
-        buf.append(", ");
+        buf.append("_\n\n##Meaning");
         buf.append(this.shortMeaning);
-        buf.append(", ");
+        buf.append("\n\n##Synonyms");
         buf.append(this.synonyms);
-        buf.append(", ");
+        buf.append("\n\n##Example");
         buf.append(this.example);
 
         return buf.toString();
