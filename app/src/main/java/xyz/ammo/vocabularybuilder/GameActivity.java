@@ -1,5 +1,7 @@
 package xyz.ammo.vocabularybuilder;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,11 +10,16 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+
 import butterknife.ButterKnife;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 import ru.noties.markwon.Markwon;
+import ru.noties.markwon.SpannableConfiguration;
+import ru.noties.markwon.renderer.SpannableRenderer;
 
 import xyz.ammo.vocabularybuilder.word.SQLiteWordEngine;
 import xyz.ammo.vocabularybuilder.word.WordTuple;
@@ -27,6 +34,8 @@ public class GameActivity extends AppCompatActivity {
     private Runnable meaningChangeRunnable;
     private static final int MILLIS_DELAY_IN_SHOWING_MEANING = 1000;
     private static final String TAG = "MyGameActivity";
+
+    private WordTuple wordTuple;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,29 +55,45 @@ public class GameActivity extends AppCompatActivity {
         }
         else {
             // Show the first word on the screen
-            WordTuple tuple = engine.getNext();
-            Log.d(TAG, "" + tuple);
-            wordTv.setText(tuple.getWord());
-            typeTv.setText(tuple.getType());
+            wordTuple = engine.getNext();
+            Log.d(TAG, "" + wordTuple);
+            wordTv.setText(wordTuple.getWord());
+            typeTv.setText(wordTuple.getType());
             meaningTv.setText("");  //Empty, if user waits then show else move on
 
-            meaningChangeRunnable = new TextChangeRunnable(meaningTv, tuple.getShortMeaning());
+            meaningChangeRunnable = new TextChangeRunnable(meaningTv, wordTuple.getShortMeaning());
             meaningTv.postDelayed(meaningChangeRunnable, MILLIS_DELAY_IN_SHOWING_MEANING);
         }
     }
 
-    @OnClick(R.id.meaning)
-    void nextWord() {
+    @OnClick(R.id.meaning) void nextWord() {
         meaningTv.removeCallbacks(meaningChangeRunnable);
 
-        WordTuple tuple = engine.getNext();
-        Log.d(TAG, "" + tuple);
-        wordTv.setText(tuple.getWord());
-        typeTv.setText(tuple.getType());
+        wordTuple = engine.getNext();
+        Log.d(TAG, "" + wordTuple);
+        wordTv.setText(wordTuple.getWord());
+        typeTv.setText(wordTuple.getType());
         meaningTv.setText("");  //Empty, if user waits then show else move on
 
-        meaningChangeRunnable = new TextChangeRunnable(meaningTv, tuple.getShortMeaning());
+        meaningChangeRunnable = new TextChangeRunnable(meaningTv, wordTuple.getShortMeaning());
         meaningTv.postDelayed(meaningChangeRunnable, MILLIS_DELAY_IN_SHOWING_MEANING);
+    }
+
+    @OnClick(R.id.fab) void viewData() {
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        final Parser parser = Markwon.createParser();
+        final SpannableConfiguration config = SpannableConfiguration.create(this);
+        final SpannableRenderer renderer = new SpannableRenderer();
+        final Node node = parser.parse(wordTuple.markdownify());
+        builder.setMessage(renderer.render(config, node))
+                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                    }
+                })
+                .show();
     }
 
     @Override

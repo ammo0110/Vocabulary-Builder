@@ -39,18 +39,27 @@ public class WordTuple {
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append("#");
-        buf.append(this.word);
-        buf.append("\n");
-        buf.append("_");
-        buf.append(this.type);
-        buf.append("_\n\n##Meaning");
-        buf.append(this.shortMeaning);
-        buf.append("\n\n##Synonyms");
-        buf.append(this.synonyms);
-        buf.append("\n\n##Example");
-        buf.append(this.example);
+        return buf.append(this.word)
+                .append(", ")
+                .append(this.type)
+                .append(", ")
+                .append(this.shortMeaning)
+                .append(", ")
+                .append(this.synonyms)
+                .append(", ")
+                .append(this.example)
+                .toString();
+    }
 
-        return buf.toString();
+    public String markdownify() {
+        StringBuilder buf = new StringBuilder();
+        return buf.append("## ")
+                .append(this.word)
+                .append("\n### Synonyms\n")
+                .append(this.synonyms)
+                .append("\n\n### Example\n")
+                .append("1. ")
+                .append(this.example)
+                .toString();
     }
 }
