@@ -57,7 +57,8 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.definition) void nextWord() {
+    @OnClick(R.id.meaning)
+    void nextWord() {
         meaningTv.removeCallbacks(meaningChangeRunnable);
 
         WordTuple tuple = engine.getNext();
