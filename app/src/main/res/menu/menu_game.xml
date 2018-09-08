@@ -5,4 +5,10 @@
     <item
         android:id="@+id/menu_game_search"
         android:title="@string/menu_game_search" />
+
+    <item
+        android:id="@+id/menu_game_shuffle"
+        android:title="@string/menu_game_shuffle"
+        android:checkable="true"
+        app:actionViewClass="android.widget.CheckBox" />
 </menu>

@@ -36,6 +36,7 @@ public class GameActivity extends AppCompatActivity {
     private static final String TAG = "MyGameActivity";
 
     private WordTuple wordTuple;
+    private boolean randomize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class GameActivity extends AppCompatActivity {
 
         String localPath = getIntent().getExtras().getString(HomeActivity.KEY_USERDB);
         engine = new SQLiteWordEngine(getApplicationContext(), localPath);
+        this.randomize = false;
 
         // If database is empty, exit game
         if(engine.getSize() == 0) {
@@ -55,7 +57,7 @@ public class GameActivity extends AppCompatActivity {
         }
         else {
             // Show the first word on the screen
-            wordTuple = engine.getNext();
+            wordTuple = engine.getNext(randomize);
             Log.d(TAG, "" + wordTuple);
             wordTv.setText(wordTuple.getWord());
             typeTv.setText(wordTuple.getType());
@@ -69,7 +71,7 @@ public class GameActivity extends AppCompatActivity {
     @OnClick(R.id.meaning) void nextWord() {
         meaningTv.removeCallbacks(meaningChangeRunnable);
 
-        wordTuple = engine.getNext();
+        wordTuple = engine.getNext(randomize);
         Log.d(TAG, "" + wordTuple);
         wordTv.setText(wordTuple.getWord());
         typeTv.setText(wordTuple.getType());
@@ -109,6 +111,10 @@ public class GameActivity extends AppCompatActivity {
         // Handles presses on the action bar items
         switch(item.getItemId()) {
             case R.id.menu_game_search:
+                return true;
+            case R.id.menu_game_shuffle:
+                randomize = !item.isChecked();
+                item.setChecked(randomize);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

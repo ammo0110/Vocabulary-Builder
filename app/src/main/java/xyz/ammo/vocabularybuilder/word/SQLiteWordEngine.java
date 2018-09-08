@@ -14,7 +14,6 @@ public class SQLiteWordEngine implements WordEngine {
     private SQLiteDatabase primaryDB;
     private Cursor cur;
     private int size;   // The number of words in database
-    private boolean randomize;
 
     public static final String TAG = "MySQLiteEngine";
 
@@ -39,7 +38,6 @@ public class SQLiteWordEngine implements WordEngine {
                 WordDBOpenHelper.COLUMN_SYNONYMS,
                 WordDBOpenHelper.COLUMN_EXAMPLE,
                 WordDBOpenHelper.TABLE_NAME), null);
-        this.randomize = false;
     }
 
     public int getSize() {
@@ -52,7 +50,7 @@ public class SQLiteWordEngine implements WordEngine {
     }
 
     @Override
-    public WordTuple getNext() {
+    public WordTuple getNext(boolean randomize) {
         if(randomize) {
             Random rand = new Random();
             int index = rand.nextInt(size);
