@@ -53,11 +53,9 @@ public class WordTuple {
 
     public String markdownify() {
         StringBuilder buf = new StringBuilder();
-        return buf.append("## ")
-                .append(this.word)
-                .append("\n### Synonyms\n")
+        return buf.append("#### Synonyms\n")
                 .append(this.synonyms)
-                .append("\n\n### Example\n")
+                .append("\n\n#### Example\n")
                 .append("1. ")
                 .append(this.example)
                 .toString();

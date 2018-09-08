@@ -86,7 +86,8 @@ public class GameActivity extends AppCompatActivity {
         final SpannableConfiguration config = SpannableConfiguration.create(this);
         final SpannableRenderer renderer = new SpannableRenderer();
         final Node node = parser.parse(wordTuple.markdownify());
-        builder.setMessage(renderer.render(config, node))
+        builder.setTitle(wordTuple.getWord())
+                .setMessage(renderer.render(config, node))
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
