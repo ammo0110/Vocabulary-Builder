@@ -2,31 +2,24 @@ package xyz.ammo.vocabularybuilder;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
+import android.view.MenuItem;
 import android.widget.Toast;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import android.net.Uri;
 
 import xyz.ammo.vocabularybuilder.storage.WordDBOpenHelper;
 
-public class DBEditActivity extends AppCompatActivity {
-
-    @BindView(R.id.tiet1) TextView wordTv;
-    @BindView(R.id.tiet2) TextView typeTv;
-    @BindView(R.id.tiet3) TextView meaningTv;
-    @BindView(R.id.tiet4) TextView synonymTv;
-    @BindView(R.id.tiet5) TextView exampleTv;
+public class DBEditActivity extends AppCompatActivity implements AddWordFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MyDBEditActivity";
+
+    private Fragment addWordFragment;
 
     private SQLiteDatabase database;
 
@@ -35,42 +28,63 @@ public class DBEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dbedit);
 
-        ButterKnife.bind(this);
-
-        // Hack for emulating material theme spinners
-        AutoCompleteTextView actv = (AutoCompleteTextView)typeTv;
-        actv.setAdapter(ArrayAdapter.createFromResource(this, R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
-        actv.setKeyListener(null);
-        actv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ((AutoCompleteTextView)v).showDropDown();
-                return false;
-            }
-        });
-    }
-
-    @OnClick(R.id.addWordButton) void addWordToDatabase() {
         String dbPath = getIntent().getExtras().getString(HomeActivity.KEY_USERDB);
         database = new WordDBOpenHelper(getApplicationContext(), dbPath).getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(WordDBOpenHelper.COLUMN_WORD, wordTv.getText().toString().trim());
-        values.put(WordDBOpenHelper.COLUMN_TYPE, typeTv.getText().toString().trim());
-        values.put(WordDBOpenHelper.COLUMN_MEANING, meaningTv.getText().toString().trim());
-        values.put(WordDBOpenHelper.COLUMN_SYNONYMS, synonymTv.getText().toString().trim());
-        values.put(WordDBOpenHelper.COLUMN_EXAMPLE, exampleTv.getText().toString().trim());
+        addWordFragment = AddWordFragment.newInstance();
 
-        if(database.insert(WordDBOpenHelper.TABLE_NAME, null, values) > 0) {
-            Log.d(TAG, "Word entered in database");
-            Toast.makeText(this, "Word entered in database", Toast.LENGTH_SHORT).show();
-            database.close();
-            finish();
-        }
-        else {
-            Log.e(TAG, "Error in adding word to database");
-            Toast.makeText(this, "Error! Please check the field constraints", Toast.LENGTH_SHORT).show();
-        }
+        BottomNavigationView bnv = findViewById(R.id.bottomNavigationView);
+        bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    Fragment selected = null;
+                    switch(menuItem.getItemId()) {
+                        case R.id.addWord:
+                            selected = addWordFragment;
+                            break;
+                        default:
+                            break;
+                    }
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.scrollView, selected);
+                    transaction.commit();
+                    return true;
+            }
+        });
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.scrollView, addWordFragment);
+        transaction.commit();
+
     }
+    
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        database.close();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        Log.d(TAG, uri.getAuthority());
+        if(uri.getAuthority().equals("add")) {
+            // Add words to database 
+            ContentValues values = new ContentValues();
+            values.put(WordDBOpenHelper.COLUMN_WORD, uri.getQueryParameter(AddWordFragment.KEY_WORD));
+            values.put(WordDBOpenHelper.COLUMN_TYPE, uri.getQueryParameter(AddWordFragment.KEY_TYPE));
+            values.put(WordDBOpenHelper.COLUMN_MEANING, uri.getQueryParameter(AddWordFragment.KEY_MEANING));
+            values.put(WordDBOpenHelper.COLUMN_SYNONYMS, uri.getQueryParameter(AddWordFragment.KEY_SYNONYM));
+            values.put(WordDBOpenHelper.COLUMN_EXAMPLE, uri.getQueryParameter(AddWordFragment.KEY_EXAMPLE));
+
+            if(database.insert(WordDBOpenHelper.TABLE_NAME, null, values) > 0) {
+                Log.d(TAG, "Word entered in database");
+                Toast.makeText(this, "Word entered in database", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else {
+                Log.e(TAG, "Error in adding word to database");
+                Toast.makeText(this, "Error! Please check the field constraints", Toast.LENGTH_SHORT).show();
+            }
+        }
+    } 
 
 }

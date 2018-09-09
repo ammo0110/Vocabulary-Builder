@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/addWord"
         android:enabled="true"
         android:title="Add"
         android:icon="@android:drawable/ic_menu_add"
