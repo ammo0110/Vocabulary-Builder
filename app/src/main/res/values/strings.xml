@@ -2,10 +2,10 @@
     <string name="app_name">Speed Vocab</string>
     <string name="title">Word Attack</string>
     <string name="menu_choice1">Begin</string>
-    <string name="menu_choice2">Add to Database</string>
+    <string name="menu_choice2">Edit Database</string>
     <string name="export_db">Export Database</string>
     <string name="menu_choice3">Settings</string>
-    <string name="edit_db_title">Add Word to Database</string>
+    <string name="edit_db_title">Edit Database</string>
     <string name="menu_game_shuffle">Shuffle</string>
     <string name="menu_game_search">Search on Google</string>
     <string-array name="word_types">

@@ -47,7 +47,7 @@ public class GameActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         String localPath = getIntent().getExtras().getString(HomeActivity.KEY_USERDB);
-        engine = new SQLiteWordEngine(getApplicationContext(), localPath);
+        engine = new SQLiteWordEngine(this, localPath);
         this.randomize = false;
 
         // If database is empty, exit game

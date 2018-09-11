@@ -1,7 +1,10 @@
 package xyz.ammo.vocabularybuilder;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.Cursor;
+import android.widget.ArrayAdapter;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -15,13 +18,18 @@ import android.net.Uri;
 
 import xyz.ammo.vocabularybuilder.storage.WordDBOpenHelper;
 
-public class DBEditActivity extends AppCompatActivity implements AddWordFragment.OnFragmentInteractionListener {
+public class DBEditActivity extends AppCompatActivity implements AddWordFragment.OnFragmentInteractionListener,
+    UpdateWordFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MyDBEditActivity";
 
     private Fragment addWordFragment;
+    private Fragment updateWordFragment;
 
     private SQLiteDatabase database;
+    private ArrayAdapter<String> adapter; // The adapter used by update fragment spinner
+
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +37,10 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
         setContentView(R.layout.activity_dbedit);
 
         String dbPath = getIntent().getExtras().getString(HomeActivity.KEY_USERDB);
-        database = new WordDBOpenHelper(getApplicationContext(), dbPath).getWritableDatabase();
+        database = new WordDBOpenHelper(context, dbPath).getWritableDatabase();
 
         addWordFragment = AddWordFragment.newInstance();
+        updateWordFragment = UpdateWordFragment.newInstance();
 
         BottomNavigationView bnv = findViewById(R.id.bottomNavigationView);
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -42,6 +51,16 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
                         case R.id.addWord:
                             selected = addWordFragment;
                             break;
+                        case R.id.updateWord:
+                            selected = updateWordFragment;
+                            // Initialize cursor adapter
+                            Cursor cur = database.rawQuery(String.format("SELECT %1$s, %2$s FROM %3$s ORDER BY %1$s ASC", WordDBOpenHelper.COLUMN_WORD, WordDBOpenHelper.COLUMN_TYPE, WordDBOpenHelper.TABLE_NAME), null);
+                            adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item);
+                            while(cur.moveToNext()) {
+                                adapter.add(cur.getString(0) + "\t\t" + cur.getString(1));
+                            }
+                            cur.close();
+                            break;
                         default:
                             break;
                     }
@@ -51,6 +70,8 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
                     return true;
             }
         });
+
+        // Set first fragment by default
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.scrollView, addWordFragment);
         transaction.commit();
@@ -85,6 +106,9 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
                 Toast.makeText(this, "Error! Please check the field constraints", Toast.LENGTH_SHORT).show();
             }
         }
-    } 
+    }
 
+    public ArrayAdapter<String> getAdapter() {
+        return adapter;
+    }
 }
