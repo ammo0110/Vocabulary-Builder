@@ -4,6 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
+import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.widget.ArrayAdapter;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -27,7 +32,7 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
     private Fragment updateWordFragment;
 
     private SQLiteDatabase database;
-    private ArrayAdapter<String> adapter; // The adapter used by update fragment spinner
+    private ArrayAdapter<SpannableStringBuilder> adapter; // The adapter used by update fragment spinner
 
     private final Context context = this;
 
@@ -55,9 +60,13 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
                             selected = updateWordFragment;
                             // Initialize cursor adapter
                             Cursor cur = database.rawQuery(String.format("SELECT %1$s, %2$s FROM %3$s ORDER BY %1$s ASC", WordDBOpenHelper.COLUMN_WORD, WordDBOpenHelper.COLUMN_TYPE, WordDBOpenHelper.TABLE_NAME), null);
-                            adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item);
+                            adapter = new ArrayAdapter<SpannableStringBuilder>(context, android.R.layout.simple_spinner_dropdown_item);
                             while(cur.moveToNext()) {
-                                adapter.add(cur.getString(0) + "\t\t" + cur.getString(1));
+                                SpannableStringBuilder b = new SpannableStringBuilder();
+                                b.append(cur.getString(0), new StyleSpan(Typeface.BOLD), Spanned.SPAN_COMPOSING)
+                                 .append(" ")
+                                 .append(cur.getString(1), new StyleSpan(Typeface.ITALIC), Spanned.SPAN_COMPOSING);
+                                adapter.add(b);
                             }
                             cur.close();
                             break;
@@ -108,7 +117,7 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
         }
     }
 
-    public ArrayAdapter<String> getAdapter() {
+    public ArrayAdapter<SpannableStringBuilder> getAdapter() {
         return adapter;
     }
 }

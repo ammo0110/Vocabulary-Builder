@@ -49,20 +49,20 @@
         app:layout_constraintVertical_bias="0.0">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/til1"
+            android:id="@+id/uTil1"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/til2"
+            app:layout_constraintEnd_toStartOf="@+id/uTil2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/tiet1"
+                android:id="@+id/uTiet1"
                 style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,21 +71,21 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/til2"
+            android:id="@+id/uTil2"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="120dp"
             android:layout_height="0dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/til1"
+            app:layout_constraintBottom_toBottomOf="@+id/uTil1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/til1"
+            app:layout_constraintTop_toTopOf="@+id/uTil1"
             app:layout_constraintVertical_bias="0.0">
 
             <AutoCompleteTextView
-                android:id="@+id/tiet2"
+                android:id="@+id/uTiet2"
                 style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -95,7 +95,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/til3"
+            android:id="@+id/uTil3"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,11 +106,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til2"
+            app:layout_constraintTop_toBottomOf="@+id/uTil2"
             app:layout_constraintVertical_bias="0.0">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/tiet3"
+                android:id="@+id/uTiet3"
                 style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/til4"
+            android:id="@+id/uTil4"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,11 +130,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til3"
+            app:layout_constraintTop_toBottomOf="@+id/uTil3"
             app:layout_constraintVertical_bias="0.0">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/tiet4"
+                android:id="@+id/uTiet4"
                 style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -143,7 +143,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/til5"
+            android:id="@+id/uTil5"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,10 +154,10 @@
             app:layout_constraintBottom_toTopOf="@+id/addWordButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til4">
+            app:layout_constraintTop_toBottomOf="@+id/uTil4">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/tiet5"
+                android:id="@+id/uTiet5"
                 style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
             android:text="Update Word"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til5" />
+            app:layout_constraintTop_toBottomOf="@+id/uTil5" />
 
 
     </android.support.constraint.ConstraintLayout>
