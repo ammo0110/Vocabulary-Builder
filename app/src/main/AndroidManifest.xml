@@ -3,6 +3,7 @@
     package="xyz.ammo.vocabularybuilder">
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/aard"
         android:label="@string/app_name"
@@ -29,7 +30,7 @@
                 android:value=".HomeActivity" />
         </activity>
         <activity
-            android:name=".DBEditActivity"
+            android:name=".databaseui.DBEditActivity"
             android:label="@string/edit_db_title"
             android:configChanges="orientation|screenSize" >
             <meta-data

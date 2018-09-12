@@ -1,11 +1,10 @@
-package xyz.ammo.vocabularybuilder;
+package xyz.ammo.vocabularybuilder.databaseui;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.graphics.Typeface;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
@@ -21,6 +20,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import android.net.Uri;
 
+import xyz.ammo.vocabularybuilder.HomeActivity;
+import xyz.ammo.vocabularybuilder.R;
 import xyz.ammo.vocabularybuilder.storage.WordDBOpenHelper;
 
 public class DBEditActivity extends AppCompatActivity implements AddWordFragment.OnFragmentInteractionListener,
@@ -31,9 +32,6 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
     private Fragment addWordFragment;
     private Fragment updateWordFragment;
 
-    private SQLiteDatabase database;
-    private ArrayAdapter<SpannableStringBuilder> adapter; // The adapter used by update fragment spinner
-
     private final Context context = this;
 
     @Override
@@ -42,7 +40,6 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
         setContentView(R.layout.activity_dbedit);
 
         String dbPath = getIntent().getExtras().getString(HomeActivity.KEY_USERDB);
-        database = new WordDBOpenHelper(context, dbPath).getWritableDatabase();
 
         addWordFragment = AddWordFragment.newInstance();
         updateWordFragment = UpdateWordFragment.newInstance();
@@ -58,17 +55,6 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
                             break;
                         case R.id.updateWord:
                             selected = updateWordFragment;
-                            // Initialize cursor adapter
-                            Cursor cur = database.rawQuery(String.format("SELECT %1$s, %2$s FROM %3$s ORDER BY %1$s ASC", WordDBOpenHelper.COLUMN_WORD, WordDBOpenHelper.COLUMN_TYPE, WordDBOpenHelper.TABLE_NAME), null);
-                            adapter = new ArrayAdapter<SpannableStringBuilder>(context, android.R.layout.simple_spinner_dropdown_item);
-                            while(cur.moveToNext()) {
-                                SpannableStringBuilder b = new SpannableStringBuilder();
-                                b.append(cur.getString(0), new StyleSpan(Typeface.BOLD), Spanned.SPAN_COMPOSING)
-                                 .append(" ")
-                                 .append(cur.getString(1), new StyleSpan(Typeface.ITALIC), Spanned.SPAN_COMPOSING);
-                                adapter.add(b);
-                            }
-                            cur.close();
                             break;
                         default:
                             break;
@@ -90,13 +76,12 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        database.close();
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
         Log.d(TAG, uri.getAuthority());
-        if(uri.getAuthority().equals("add")) {
+        /* if(uri.getAuthority().equals("add")) {
             // Add words to database 
             ContentValues values = new ContentValues();
             values.put(WordDBOpenHelper.COLUMN_WORD, uri.getQueryParameter(AddWordFragment.KEY_WORD));
@@ -114,10 +99,7 @@ public class DBEditActivity extends AppCompatActivity implements AddWordFragment
                 Log.e(TAG, "Error in adding word to database");
                 Toast.makeText(this, "Error! Please check the field constraints", Toast.LENGTH_SHORT).show();
             }
-        }
+        } */
     }
 
-    public ArrayAdapter<SpannableStringBuilder> getAdapter() {
-        return adapter;
-    }
 }

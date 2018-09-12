@@ -18,6 +18,7 @@ import java.io.OutputStream;
 
 import butterknife.OnClick;
 import butterknife.ButterKnife;
+import xyz.ammo.vocabularybuilder.databaseui.DBEditActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -96,7 +97,7 @@ public class HomeActivity extends AppCompatActivity {
                 String userLocalPath = getFilesDir() + "/" + userDB;
                 InputStream is = new FileInputStream(userLocalPath);
                 OutputStream os = getContentResolver().openOutputStream(uri);
-                dumpInputotOutout(is, os);
+                dumpInputToOutput(is, os);
             }
             catch(IOException ex) {
                 Log.e(TAG, "Exception occurred while exporting file: " + ex.getMessage());
@@ -114,7 +115,7 @@ public class HomeActivity extends AppCompatActivity {
                 InputStream is = getAssets().open("databases/Words.db");
                 FileOutputStream os = new FileOutputStream(dbFile);
                 byte[] buf = new byte[1024];
-                dumpInputotOutout(is, os);
+                dumpInputToOutput(is, os);
                 Log.d(TAG, "assets/databases/Words.db copied");
             }
             catch(IOException ex) {
@@ -123,7 +124,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void dumpInputotOutout(InputStream is, OutputStream os) throws IOException {
+    private void dumpInputToOutput(InputStream is, OutputStream os) throws IOException {
         byte[] buf = new byte[1024];
         while(is.read(buf) > 0) {
             os.write(buf);

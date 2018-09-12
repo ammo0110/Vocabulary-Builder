@@ -1,4 +1,4 @@
-package xyz.ammo.vocabularybuilder;
+package xyz.ammo.vocabularybuilder.databaseui;
 
 import android.content.Context;
 import android.net.Uri;
@@ -16,6 +16,8 @@ import android.util.Log;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import xyz.ammo.vocabularybuilder.R;
 
 public class AddWordFragment extends Fragment {
 
