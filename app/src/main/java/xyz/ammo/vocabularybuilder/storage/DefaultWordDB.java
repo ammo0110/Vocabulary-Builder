@@ -1,5 +1,6 @@
 package xyz.ammo.vocabularybuilder.storage;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,5 +28,17 @@ public class DefaultWordDB {
     public Cursor rawQuery(String query, String[] selectionArgs) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         return db.rawQuery(query, selectionArgs);
+    }
+
+    public long insert(String word, String type, String meaning, String synonyms, String examples) {
+        // Add words to database
+        ContentValues values = new ContentValues();
+        values.put(WordDBOpenHelper.COLUMN_WORD, word.trim());
+        values.put(WordDBOpenHelper.COLUMN_TYPE, type.trim());
+        values.put(WordDBOpenHelper.COLUMN_MEANING, meaning.trim());
+        values.put(WordDBOpenHelper.COLUMN_SYNONYMS, synonyms.trim());
+        values.put(WordDBOpenHelper.COLUMN_EXAMPLE, examples.trim());
+
+        return mHelper.getWritableDatabase().insert(WordDBOpenHelper.TABLE_NAME, null, values);
     }
 }

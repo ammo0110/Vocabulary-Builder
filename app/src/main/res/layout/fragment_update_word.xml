@@ -6,33 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".databaseui.UpdateWordFragment">
 
-    <Button
-        android:id="@+id/autoFill"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:text="Auto Fill"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/wordSpinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/wordSpinner" />
-
     <Spinner
         android:id="@+id/wordSpinner"
-        style="@style/Widget.AppCompat.Spinner.DropDown"
-        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.Spinner.Underlined"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:spinnerMode="dropdown"
+        android:spinnerMode="dialog"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/autoFill"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 

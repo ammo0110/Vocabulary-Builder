@@ -7,18 +7,19 @@ import android.util.Log;
 
 import java.util.Random;
 
+import xyz.ammo.vocabularybuilder.storage.DefaultWordDB;
 import xyz.ammo.vocabularybuilder.storage.WordDBOpenHelper;
 
 public class SQLiteWordEngine implements WordEngine {
 
-    private SQLiteDatabase primaryDB;
+    private DefaultWordDB primaryDB;
     private Cursor cur;
     private int size;   // The number of words in database
 
     public static final String TAG = "MySQLiteEngine";
 
-    public SQLiteWordEngine(Context context, String dbName) {
-        this.primaryDB = new WordDBOpenHelper(context, dbName).getReadableDatabase();
+    public SQLiteWordEngine() {
+        this.primaryDB = DefaultWordDB.getInstance();
 
         Cursor temp = primaryDB.rawQuery(String.format("SELECT COUNT(%s) FROM %s", WordDBOpenHelper.COLUMN_WORD, WordDBOpenHelper.TABLE_NAME), null);
         if(temp.moveToFirst()) {
@@ -46,7 +47,6 @@ public class SQLiteWordEngine implements WordEngine {
 
     public void closeEngine() {
         this.cur.close();
-        this.primaryDB.close();
     }
 
     @Override
