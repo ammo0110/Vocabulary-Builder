@@ -14,9 +14,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +30,12 @@ import xyz.ammo.vocabularybuilder.storage.WordDBOpenHelper;
 public class UpdateWordFragment extends Fragment {
 
     @BindView(R.id.wordSpinner) Spinner wordSelector;
+
+    @BindView(R.id.uTiet1) TextView wordTv;
     @BindView(R.id.uTiet2) AutoCompleteTextView typeTv;
+    @BindView(R.id.uTiet3) TextView meaningTv;
+    @BindView(R.id.uTiet4) TextView synonymTv;
+    @BindView(R.id.uTiet5) TextView exampleTv;
 
     private static final String TAG = "MyUpdateWordFragment";
 
@@ -54,10 +61,9 @@ public class UpdateWordFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         // Hack for emulating material theme spinners
-        AutoCompleteTextView actv = (AutoCompleteTextView)typeTv;
-        actv.setAdapter(ArrayAdapter.createFromResource(this.getContext(), R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
-        actv.setKeyListener(null);
-        actv.setOnTouchListener(new View.OnTouchListener() {
+        typeTv.setAdapter(ArrayAdapter.createFromResource(this.getContext(), R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
+        typeTv.setKeyListener(null);
+        typeTv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 ((AutoCompleteTextView)v).showDropDown();
@@ -65,7 +71,31 @@ public class UpdateWordFragment extends Fragment {
             }
         });
 
-        SpinnerQueryTask queryTask = new SpinnerQueryTask(this.getContext(), wordSelector);
+        ArrayAdapter<SpannableString>adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.select_dialog_item);
+        wordSelector.setAdapter(adapter);
+        adapter.add(new SpannableString("Select Word to Update"));
+        wordSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0) {
+                    // Ignore
+                    return;
+                }
+                String[] tokens = parent.getItemAtPosition(position).toString().split("\\(");
+                String word = tokens[0];
+                String type = tokens[1].substring(0, tokens[1].length()-1);
+
+                // Start a fill query task
+                new FormFillQueryTask().execute(word, type);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+
+        SpinnerQueryTask queryTask = new SpinnerQueryTask(adapter);
         queryTask.execute();
         return view;
     }
@@ -84,12 +114,10 @@ public class UpdateWordFragment extends Fragment {
 
     private class SpinnerQueryTask extends AsyncTask<Void, Void, Cursor> {
 
-        private Context mContext;
-        private Spinner mSpinner;
+        private ArrayAdapter<SpannableString> mAdapter;
 
-        public SpinnerQueryTask(Context context, Spinner spinner) {
-            mContext = context;
-            mSpinner = spinner;
+        public SpinnerQueryTask(ArrayAdapter<SpannableString> adapter) {
+            mAdapter = adapter;
         }
 
         @Override
@@ -99,17 +127,43 @@ public class UpdateWordFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Cursor cur) {
-            ArrayAdapter<SpannableString>adapter = new ArrayAdapter<>(mContext, android.R.layout.select_dialog_item);
             while(cur.moveToNext()) {
                 String word = cur.getString(0);
                 String type = cur.getString(1);
-                SpannableString s = new SpannableString(word + " " + type);
+                SpannableString s = new SpannableString(word + "(" + type + ")");
                 s.setSpan(new StyleSpan(Typeface.BOLD), 0, word.length(), Spanned.SPAN_COMPOSING);
-                s.setSpan(new StyleSpan(Typeface.ITALIC), word.length()+1, word.length()+type.length()+1, Spanned.SPAN_COMPOSING);
-                adapter.add(s);
+                s.setSpan(new StyleSpan(Typeface.ITALIC), word.length(), word.length()+type.length()+2, Spanned.SPAN_COMPOSING);
+                mAdapter.add(s);
             }
             cur.close();
-            mSpinner.setAdapter(adapter);
+        }
+    }
+
+    private class FormFillQueryTask extends AsyncTask<String, Void, Cursor> {
+
+        @Override
+        public Cursor doInBackground(String... strings) {
+            return DefaultWordDB.getInstance().rawQuery(String.format("SELECT %1$s, %2$s, %3$s, %4$s, %5$s FROM %6$s WHERE %1$s = '%7$s' AND %2$s = '%8$s'",
+                    WordDBOpenHelper.COLUMN_WORD,
+                    WordDBOpenHelper.COLUMN_TYPE,
+                    WordDBOpenHelper.COLUMN_MEANING,
+                    WordDBOpenHelper.COLUMN_SYNONYMS,
+                    WordDBOpenHelper.COLUMN_EXAMPLE,
+                    WordDBOpenHelper.TABLE_NAME,
+                    strings[0],
+                    strings[1]), null);
+        }
+
+        @Override
+        public void onPostExecute(Cursor cur) {
+            if(cur.moveToFirst()) {
+                wordTv.setText(cur.getString(0));
+                typeTv.setText(cur.getString(1));
+                meaningTv.setText(cur.getString(2));
+                synonymTv.setText(cur.getString(3));
+                exampleTv.setText(cur.getString(4));
+            }
+            cur.close();
         }
     }
 }

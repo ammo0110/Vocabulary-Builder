@@ -74,6 +74,12 @@ public class AddWordFragment extends Fragment {
         if(ret > 0) {
             Log.d(TAG, "Word entered in database");
             Toast.makeText(this.getContext(), "Word entered in database", Toast.LENGTH_SHORT).show();
+            // Clear all text views as well
+            wordTv.setText("");
+            typeTv.setText("");
+            meaningTv.setText("");
+            synonymTv.setText("");
+            exampleTv.setText("");
         }
         else {
             Log.e(TAG, "Error in adding word to database");
