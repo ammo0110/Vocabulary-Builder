@@ -52,7 +52,6 @@ public class AddWordFragment extends Fragment {
         
         typeTv.setAdapter(ArrayAdapter.createFromResource(this.getContext(), R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
 
-
         return view;
     }
 

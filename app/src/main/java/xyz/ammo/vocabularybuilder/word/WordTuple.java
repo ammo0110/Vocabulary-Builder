@@ -38,26 +38,10 @@ public class WordTuple {
 
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        return buf.append(this.word)
-                .append(", ")
-                .append(this.type)
-                .append(", ")
-                .append(this.shortMeaning)
-                .append(", ")
-                .append(this.synonyms)
-                .append(", ")
-                .append(this.example)
-                .toString();
+        return word + ", " + type + ", " + shortMeaning + ", " + synonyms + ", "+example;
     }
 
     public String markdownify() {
-        StringBuilder buf = new StringBuilder();
-        return buf.append("#### Synonyms\n")
-                .append(this.synonyms)
-                .append("\n\n#### Example\n")
-                .append("1. ")
-                .append(this.example)
-                .toString();
+        return "#### Synonyms\n" + synonyms + "\n\n#### Example\n" + "* " + example;
     }
 }

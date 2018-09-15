@@ -16,7 +16,7 @@ public class WordDBOpenHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "Words";
 
     public static final int DATABASE_VERSION = 1;
-    public static final String TAG = "MyWordDBOpenHelper";
+    private static final String TAG = "MyWordDBOpenHelper";
 
     public WordDBOpenHelper(Context context, String databaseName) {
         super(context, databaseName, null, DATABASE_VERSION);

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import xyz.ammo.vocabularybuilder.R;
 
 public class DBEditActivity extends AppCompatActivity {
-    private static final String TAG = "MyDBEditActivity";
 
     private Fragment addWordFragment;
     private Fragment updateWordFragment;
@@ -39,10 +38,14 @@ public class DBEditActivity extends AppCompatActivity {
                     default:
                         break;
                 }
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.scrollView, selected);
-                transaction.commit();
-                return true;
+                if(selected != null) {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.scrollView, selected);
+                    transaction.commit();
+                    return true;
+                }
+                else
+                    return false;
             }
         });
 
