@@ -1,8 +1,6 @@
 package xyz.ammo.vocabularybuilder.word;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.Random;
@@ -12,14 +10,13 @@ import xyz.ammo.vocabularybuilder.storage.WordDBOpenHelper;
 
 public class SQLiteWordEngine implements WordEngine {
 
-    private DefaultWordDB primaryDB;
     private Cursor cur;
     private int size;   // The number of words in database
 
-    public static final String TAG = "MySQLiteEngine";
+    private static final String TAG = "MySQLiteEngine";
 
     public SQLiteWordEngine() {
-        this.primaryDB = DefaultWordDB.getInstance();
+        DefaultWordDB primaryDB = DefaultWordDB.getInstance();
 
         Cursor temp = primaryDB.rawQuery(String.format("SELECT COUNT(%s) FROM %s", WordDBOpenHelper.COLUMN_WORD, WordDBOpenHelper.TABLE_NAME), null);
         if(temp.moveToFirst()) {
@@ -32,7 +29,7 @@ public class SQLiteWordEngine implements WordEngine {
         temp.close();
 
         // This cursor will be used for retrieving words
-        this.cur = primaryDB.rawQuery(String.format("SELECT %s, %s, %s, %s, %s FROM %s",
+        this.cur = primaryDB.rawQuery(String.format("SELECT %1$s, %2$s, %3$s, %4$s, %5$s FROM %6$s ORDER BY %1$s ASC",
                 WordDBOpenHelper.COLUMN_WORD,
                 WordDBOpenHelper.COLUMN_TYPE,
                 WordDBOpenHelper.COLUMN_MEANING,
