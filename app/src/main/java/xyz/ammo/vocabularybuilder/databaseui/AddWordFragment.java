@@ -6,10 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
-import android.view.MotionEvent;
-import android.widget.AutoCompleteTextView;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,7 +22,7 @@ import xyz.ammo.vocabularybuilder.storage.DefaultWordDB;
 public class AddWordFragment extends Fragment {
 
     @BindView(R.id.tiet1) TextView wordTv;
-    @BindView(R.id.tiet2) TextView typeTv;
+    @BindView(R.id.tiet2) Spinner typeTv;
     @BindView(R.id.tiet3) TextView meaningTv;
     @BindView(R.id.tiet4) TextView synonymTv;
     @BindView(R.id.tiet5) TextView exampleTv;
@@ -51,24 +50,15 @@ public class AddWordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_word, container, false);
         ButterKnife.bind(this, view);
         
-        // Hack for emulating material theme spinners
-        AutoCompleteTextView actv = (AutoCompleteTextView)typeTv;
-        actv.setAdapter(ArrayAdapter.createFromResource(this.getContext(), R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
-        actv.setKeyListener(null);
-        actv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ((AutoCompleteTextView)v).showDropDown();
-                return false;
-            }
-        });
+        typeTv.setAdapter(ArrayAdapter.createFromResource(this.getContext(), R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
+
 
         return view;
     }
 
     @OnClick(R.id.addWordButton) public void addWord() {
         DefaultWordDB db = DefaultWordDB.getInstance();
-        long ret = db.insert(wordTv.getText().toString(), typeTv.getText().toString(),
+        long ret = db.insert(wordTv.getText().toString(), typeTv.getSelectedItem().toString(),
                              meaningTv.getText().toString(), synonymTv.getText().toString(),
                              exampleTv.getText().toString());
         if(ret > 0) {
@@ -76,7 +66,7 @@ public class AddWordFragment extends Fragment {
             Toast.makeText(this.getContext(), "Word entered in database", Toast.LENGTH_SHORT).show();
             // Clear all text views as well
             wordTv.setText("");
-            typeTv.setText("");
+            typeTv.setSelection(0);
             meaningTv.setText("");
             synonymTv.setText("");
             exampleTv.setText("");

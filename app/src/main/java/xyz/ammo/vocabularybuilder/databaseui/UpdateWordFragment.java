@@ -10,19 +10,19 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import butterknife.OnClick;
 import xyz.ammo.vocabularybuilder.R;
 import xyz.ammo.vocabularybuilder.storage.DefaultWordDB;
 import xyz.ammo.vocabularybuilder.storage.WordDBOpenHelper;
@@ -32,7 +32,7 @@ public class UpdateWordFragment extends Fragment {
     @BindView(R.id.wordSpinner) Spinner wordSelector;
 
     @BindView(R.id.uTiet1) TextView wordTv;
-    @BindView(R.id.uTiet2) AutoCompleteTextView typeTv;
+    @BindView(R.id.uTiet2) Spinner typeTv;
     @BindView(R.id.uTiet3) TextView meaningTv;
     @BindView(R.id.uTiet4) TextView synonymTv;
     @BindView(R.id.uTiet5) TextView exampleTv;
@@ -60,16 +60,7 @@ public class UpdateWordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_update_word, container, false);
         ButterKnife.bind(this, view);
 
-        // Hack for emulating material theme spinners
         typeTv.setAdapter(ArrayAdapter.createFromResource(this.getContext(), R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
-        typeTv.setKeyListener(null);
-        typeTv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ((AutoCompleteTextView)v).showDropDown();
-                return false;
-            }
-        });
 
         ArrayAdapter<SpannableString>adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.select_dialog_item);
         wordSelector.setAdapter(adapter);
@@ -98,6 +89,30 @@ public class UpdateWordFragment extends Fragment {
         SpinnerQueryTask queryTask = new SpinnerQueryTask(adapter);
         queryTask.execute();
         return view;
+    }
+
+    @OnClick(R.id.updateWordButton) void updateWord() {
+        if(wordSelector.getSelectedItemPosition() == 0) {
+            Toast.makeText(this.getContext(), "Error! Select a word to update", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        DefaultWordDB db = DefaultWordDB.getInstance();
+
+        String[] tokens = wordSelector.getSelectedItem().toString().split("\\(");
+        String word = tokens[0];
+        String type = tokens[1].substring(0, tokens[1].length()-1);
+
+        int ret = db.update(wordTv.getText().toString(), typeTv.getSelectedItem().toString(),
+                meaningTv.getText().toString(), synonymTv.getText().toString(),
+                exampleTv.getText().toString(), word, type);
+        if(ret > 0) {
+            Log.d(TAG, "Word updated in database");
+            Toast.makeText(this.getContext(), "Word updated in database", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Log.e(TAG, "Error in updating word to database");
+            Toast.makeText(this.getContext(), "Error! Please check the field constraints", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -143,25 +158,40 @@ public class UpdateWordFragment extends Fragment {
 
         @Override
         public Cursor doInBackground(String... strings) {
-            return DefaultWordDB.getInstance().rawQuery(String.format("SELECT %1$s, %2$s, %3$s, %4$s, %5$s FROM %6$s WHERE %1$s = '%7$s' AND %2$s = '%8$s'",
+            return DefaultWordDB.getInstance().rawQuery(String.format("SELECT %1$s, %2$s, %3$s, %4$s, %5$s FROM %6$s WHERE %1$s=?  AND %2$s=?",
                     WordDBOpenHelper.COLUMN_WORD,
                     WordDBOpenHelper.COLUMN_TYPE,
                     WordDBOpenHelper.COLUMN_MEANING,
                     WordDBOpenHelper.COLUMN_SYNONYMS,
                     WordDBOpenHelper.COLUMN_EXAMPLE,
-                    WordDBOpenHelper.TABLE_NAME,
-                    strings[0],
-                    strings[1]), null);
+                    WordDBOpenHelper.TABLE_NAME), new String[]{strings[0], strings[1]});
         }
 
         @Override
         public void onPostExecute(Cursor cur) {
             if(cur.moveToFirst()) {
                 wordTv.setText(cur.getString(0));
-                typeTv.setText(cur.getString(1));
                 meaningTv.setText(cur.getString(2));
                 synonymTv.setText(cur.getString(3));
                 exampleTv.setText(cur.getString(4));
+
+                // Select the spinner item
+                String type = cur.getString(1);
+                if(type.equals("Noun")) {
+                    typeTv.setSelection(0);
+                }
+                else if(type.equals("Verb")) {
+                    typeTv.setSelection(1);
+                }
+                else if(type.equals("Adjective")) {
+                    typeTv.setSelection(2);
+                }
+                else if(type.equals("Adverb")){
+                    typeTv.setSelection(3);
+                }
+                else {
+                    Log.e(TAG, "Unhandled type: " + type);
+                }
             }
             cur.close();
         }

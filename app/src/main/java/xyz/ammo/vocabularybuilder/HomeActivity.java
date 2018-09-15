@@ -114,7 +114,6 @@ public class HomeActivity extends AppCompatActivity {
             try {
                 InputStream is = getAssets().open("databases/Words.db");
                 FileOutputStream os = new FileOutputStream(dbFile);
-                byte[] buf = new byte[1024];
                 dumpInputToOutput(is, os);
                 Log.d(TAG, "assets/databases/Words.db copied");
             }
