@@ -139,7 +139,7 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void run() {
             if(textView != null) {
-                Markwon.setMarkdown(textView, text);
+                textView.setText(text);
             }
         }
     }

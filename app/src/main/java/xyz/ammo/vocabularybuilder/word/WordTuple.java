@@ -42,6 +42,6 @@ public class WordTuple {
     }
 
     public String markdownify() {
-        return "#### Synonyms\n" + synonyms + "\n\n#### Example\n" + "* " + example;
+        return "#### Synonyms\n" + synonyms + "\n\n#### Example\n" + "1. " + example;
     }
 }
