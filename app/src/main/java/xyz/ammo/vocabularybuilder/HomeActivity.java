@@ -18,6 +18,7 @@ import java.io.OutputStream;
 
 import butterknife.OnClick;
 import butterknife.ButterKnife;
+
 import xyz.ammo.vocabularybuilder.databaseui.DBEditActivity;
 
 public class HomeActivity extends AppCompatActivity {

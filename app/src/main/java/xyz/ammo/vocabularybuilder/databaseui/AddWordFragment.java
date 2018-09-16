@@ -2,6 +2,8 @@ package xyz.ammo.vocabularybuilder.databaseui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import butterknife.OnClick;
 
 import xyz.ammo.vocabularybuilder.R;
 import xyz.ammo.vocabularybuilder.storage.DefaultWordDB;
+import xyz.ammo.vocabularybuilder.utils.Intents;
 
 public class AddWordFragment extends Fragment {
 
@@ -76,7 +79,14 @@ public class AddWordFragment extends Fragment {
         }
     }
 
-    @Override
+    @OnClick(R.id.searchButton) public void searchWord() {
+        String searchQuery = wordTv.getText().toString();
+        searchQuery.replace(' ', '+');
+        Uri uri = Uri.parse("https://www.google.com/#q=define:" + searchQuery);
+        Intents.maybeStartActivity(this.getContext(), new Intent(Intent.ACTION_VIEW, uri));
+    }
+
+    @Override 
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach invoked");

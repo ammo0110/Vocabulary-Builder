@@ -1,6 +1,8 @@
 package xyz.ammo.vocabularybuilder;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import ru.noties.markwon.Markwon;
 import ru.noties.markwon.SpannableConfiguration;
 import ru.noties.markwon.renderer.SpannableRenderer;
 
+import xyz.ammo.vocabularybuilder.utils.Intents;
 import xyz.ammo.vocabularybuilder.word.SQLiteWordEngine;
 import xyz.ammo.vocabularybuilder.word.WordTuple;
 
@@ -110,6 +113,10 @@ public class GameActivity extends AppCompatActivity {
         // Handles presses on the action bar items
         switch(item.getItemId()) {
             case R.id.menu_game_search:
+                String searchQuery = wordTv.getText().toString();
+                searchQuery.replace(' ', '+');
+                Uri uri = Uri.parse("https://www.google.com/#q=define:" + searchQuery);
+                Intents.maybeStartActivity(this, new Intent(Intent.ACTION_VIEW, uri));
                 return true;
             case R.id.menu_game_shuffle:
                 randomize = !item.isChecked();

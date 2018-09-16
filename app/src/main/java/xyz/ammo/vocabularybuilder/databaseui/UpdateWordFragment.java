@@ -21,8 +21,8 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import butterknife.OnClick;
+
 import xyz.ammo.vocabularybuilder.R;
 import xyz.ammo.vocabularybuilder.storage.DefaultWordDB;
 import xyz.ammo.vocabularybuilder.storage.WordDBOpenHelper;
@@ -186,7 +186,7 @@ public class UpdateWordFragment extends Fragment {
                 else if(type.equals("Adjective")) {
                     typeTv.setSelection(2);
                 }
-                else if(type.equals("Adverb")){
+                else if(type.equals("Adverb")) {
                     typeTv.setSelection(3);
                 }
                 else {

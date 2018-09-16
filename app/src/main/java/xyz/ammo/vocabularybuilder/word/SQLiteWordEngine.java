@@ -52,9 +52,8 @@ public class SQLiteWordEngine implements WordEngine {
             Random rand = new Random();
             int index = rand.nextInt(size);
             cur.moveToPosition(index);
-            return new WordTuple(cur.getString(0), cur.getString(1), cur.getString(2), cur.getString(3), cur.getString(4));
         }
-        if(!cur.moveToNext()) {
+        else if(!cur.moveToNext()) {
             // Move cursor to the beginning
             cur.moveToFirst();
         }
