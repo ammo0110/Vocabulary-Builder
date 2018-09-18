@@ -137,7 +137,10 @@ public class UpdateWordFragment extends Fragment {
 
         @Override
         public Cursor doInBackground(Void... voids) {
-            return DefaultWordDB.getInstance().rawQuery(String.format("SELECT %1$s, %2$s FROM %3$s ORDER BY %1$s ASC", WordDBOpenHelper.COLUMN_WORD, WordDBOpenHelper.COLUMN_TYPE, WordDBOpenHelper.TABLE_NAME), null);
+            return DefaultWordDB.getInstance().rawQuery(String.format("SELECT %1$s, %2$s FROM %3$s ORDER BY %1$s ASC",
+                  WordDBOpenHelper.COLUMN_WORD,
+                  WordDBOpenHelper.COLUMN_TYPE,
+                  WordDBOpenHelper.TABLE_NAME), null);
         }
 
         @Override

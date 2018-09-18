@@ -21,7 +21,7 @@ public class DBEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dbedit);
 
         addWordFragment = AddWordFragment.newInstance();
-        updateWordFragment = UpdateWordFragment.newInstance();
+        updateWordFragment = null;
 
         BottomNavigationView bnv = findViewById(R.id.bottomNavigationView);
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -33,6 +33,8 @@ public class DBEditActivity extends AppCompatActivity {
                         selected = addWordFragment;
                         break;
                     case R.id.updateWord:
+                        if(updateWordFragment == null)
+                            updateWordFragment = UpdateWordFragment.newInstance();
                         selected = updateWordFragment;
                         break;
                     default:
@@ -40,6 +42,7 @@ public class DBEditActivity extends AppCompatActivity {
                 }
                 if(selected != null) {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                     transaction.replace(R.id.scrollView, selected);
                     transaction.commit();
                     return true;

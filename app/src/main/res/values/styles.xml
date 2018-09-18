@@ -1,39 +1,37 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="ButtonMaterial" parent="Widget.MaterialComponents.Button">
-        <item name="android:textSize">15sp</item>
-        <item name="android:textAllCaps">true</item>
+      <item name="android:textAllCaps">true</item>
+      <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="Word" parent="TextAppearance.AppCompat.Headline">
+    <style name="CenterWord" parent="TextAppearance.AppCompat">
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+    <style name="Word" parent="CenterWord">
         <item name="android:textSize">40sp</item>
         <item name="android:textColor">@color/airforceBlue</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">monospace</item>
-        <item name="android:gravity">center</item>
     </style>
 
-    <style name="Type" parent="TextAppearance.AppCompat.Body1">
+    <style name="Type" parent="CenterWord">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/airforceBlue</item>
         <item name="android:textStyle">italic</item>
-        <item name="android:fontFamily">monospace</item>
-        <item name="android:gravity">center</item>
     </style>
 
-    <style name="Definition" parent="TextAppearance.AppCompat.Body1">
+    <style name="Definition" parent="CenterWord">
         <item name="android:textSize">25sp</item>
         <item name="android:textColor">@color/amaranth</item>
-        <item name="android:fontFamily">monospace</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center</item>
     </style>
+
 </resources>
