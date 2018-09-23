@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Button;
 import android.widget.ArrayAdapter;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 import xyz.ammo.vocabularybuilder.R;
 import xyz.ammo.vocabularybuilder.storage.DefaultWordDB;
@@ -29,6 +31,9 @@ public class AddWordFragment extends Fragment {
     @BindView(R.id.tiet3) TextView meaningTv;
     @BindView(R.id.tiet4) TextView synonymTv;
     @BindView(R.id.tiet5) TextView exampleTv;
+
+    @BindView(R.id.searchButton) Button searchButton;
+    @BindView(R.id.addWordButton) Button addWordButton;
 
     private static final String TAG = "MyAddWordFragment";
 
@@ -54,6 +59,8 @@ public class AddWordFragment extends Fragment {
         ButterKnife.bind(this, view);
         
         typeTv.setAdapter(ArrayAdapter.createFromResource(this.getContext(), R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
+        searchButton.setEnabled(false);
+        addWordButton.setEnabled(false);
 
         return view;
     }
@@ -84,6 +91,17 @@ public class AddWordFragment extends Fragment {
         searchQuery.replace(' ', '+');
         Uri uri = Uri.parse("https://www.google.com/#q=define:" + searchQuery);
         Intents.maybeStartActivity(this.getContext(), new Intent(Intent.ACTION_VIEW, uri));
+    }
+
+    @OnTextChanged(R.id.tiet1) public void onWordTextChanged(CharSequence text) {
+        if(text.toString().trim().length() == 0) {
+          searchButton.setEnabled(false);
+          addWordButton.setEnabled(false);
+        }
+        else {
+          searchButton.setEnabled(true);
+          addWordButton.setEnabled(true);
+        }
     }
 
     @Override 

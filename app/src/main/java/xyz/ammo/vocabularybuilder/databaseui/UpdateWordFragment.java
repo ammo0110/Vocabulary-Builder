@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 import xyz.ammo.vocabularybuilder.R;
 import xyz.ammo.vocabularybuilder.storage.DefaultWordDB;
@@ -38,6 +40,8 @@ public class UpdateWordFragment extends Fragment {
     @BindView(R.id.uTiet3) TextView meaningTv;
     @BindView(R.id.uTiet4) TextView synonymTv;
     @BindView(R.id.uTiet5) TextView exampleTv;
+
+    @BindView(R.id.updateWordButton) Button updateWordButton;
 
     private ArrayAdapter<SpannableString> adapter;
     private ArrayList<SpannableString> mList;   // The list backing the array adapter
@@ -70,6 +74,7 @@ public class UpdateWordFragment extends Fragment {
         adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.select_dialog_item, mList);
         adapter.add(new SpannableString("Select Word to Update"));
         wordSelector.setAdapter(adapter);
+        updateWordButton.setEnabled(false);
 
         wordSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -135,6 +140,15 @@ public class UpdateWordFragment extends Fragment {
         else {
             Log.e(TAG, "Error in updating word to database");
             Toast.makeText(this.getContext(), "Error! Please check the field constraints", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnTextChanged(R.id.uTiet1) public void onWordTextChanged(CharSequence text) {
+        if(text.toString().trim().length() == 0) {
+          updateWordButton.setEnabled(false);
+        }
+        else {
+          updateWordButton.setEnabled(true);
         }
     }
 
