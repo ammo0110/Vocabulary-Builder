@@ -19,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,6 +38,9 @@ public class UpdateWordFragment extends Fragment {
     @BindView(R.id.uTiet3) TextView meaningTv;
     @BindView(R.id.uTiet4) TextView synonymTv;
     @BindView(R.id.uTiet5) TextView exampleTv;
+
+    private ArrayAdapter<SpannableString> adapter;
+    private ArrayList<SpannableString> mList;   // The list backing the array adapter
 
     private static final String TAG = "MyUpdateWordFragment";
 
@@ -61,10 +66,11 @@ public class UpdateWordFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         typeTv.setAdapter(ArrayAdapter.createFromResource(this.getContext(), R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
-
-        ArrayAdapter<SpannableString>adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.select_dialog_item);
-        wordSelector.setAdapter(adapter);
+        mList = new ArrayList<SpannableString>();
+        adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.select_dialog_item, mList);
         adapter.add(new SpannableString("Select Word to Update"));
+        wordSelector.setAdapter(adapter);
+
         wordSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -96,18 +102,35 @@ public class UpdateWordFragment extends Fragment {
             Toast.makeText(this.getContext(), "Error! Select a word to update", Toast.LENGTH_SHORT).show();
             return;
         }
-        DefaultWordDB db = DefaultWordDB.getInstance();
-
         String[] tokens = wordSelector.getSelectedItem().toString().split("\\(");
         String word = tokens[0];
         String type = tokens[1].substring(0, tokens[1].length()-1);
+        String newWord = wordTv.getText().toString().trim();
+        String newType = typeTv.getSelectedItem().toString();
 
-        int ret = db.update(wordTv.getText().toString(), typeTv.getSelectedItem().toString(),
-                meaningTv.getText().toString(), synonymTv.getText().toString(),
-                exampleTv.getText().toString(), word, type);
+        DefaultWordDB db = DefaultWordDB.getInstance();
+        int ret = db.update(newWord, newType, meaningTv.getText().toString(),
+                synonymTv.getText().toString(), exampleTv.getText().toString(), word, type);
+
         if(ret > 0) {
             Log.d(TAG, "Word updated in database");
+
+            // Change the entry text
+            SpannableString s = new SpannableString(newWord + "(" + newType + ")");
+            s.setSpan(new StyleSpan(Typeface.BOLD), 0, newWord.length(), Spanned.SPAN_COMPOSING);
+            s.setSpan(new StyleSpan(Typeface.ITALIC), newWord.length(), newWord.length()+newType.length()+2, Spanned.SPAN_COMPOSING);
+            mList.set(wordSelector.getSelectedItemPosition(), s);
+            adapter.notifyDataSetChanged();
+
             Toast.makeText(this.getContext(), "Word updated in database", Toast.LENGTH_SHORT).show();
+
+            // Reset the form
+            wordSelector.setSelection(0);
+            wordTv.setText("");
+            typeTv.setSelection(0);
+            meaningTv.setText("");
+            synonymTv.setText("");
+            exampleTv.setText("");
         }
         else {
             Log.e(TAG, "Error in updating word to database");
