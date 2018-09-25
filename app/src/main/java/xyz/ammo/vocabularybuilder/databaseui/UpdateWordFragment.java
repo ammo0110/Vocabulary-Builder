@@ -63,14 +63,13 @@ public class UpdateWordFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_update_word, container, false);
         ButterKnife.bind(this, view);
 
         typeTv.setAdapter(ArrayAdapter.createFromResource(this.getContext(), R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
-        mList = new ArrayList<SpannableString>();
+        mList = new ArrayList<>();
         adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.select_dialog_item, mList);
         adapter.add(new SpannableString("Select Word to Update"));
         wordSelector.setAdapter(adapter);
@@ -80,12 +79,16 @@ public class UpdateWordFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0) {
-                    // Ignore
+                    // Disable Update Button
+                    updateWordButton.setEnabled(false);
                     return;
                 }
-                String[] tokens = parent.getItemAtPosition(position).toString().split("\\(");
-                String word = tokens[0];
-                String type = tokens[1].substring(0, tokens[1].length()-1);
+                String label = parent.getItemAtPosition(position).toString();
+                int m = label.lastIndexOf("(");
+                String word = label.substring(0, m);
+                String type = label.substring(m+1, label.length()-1);   // Removing parenthesis
+                Log.d(TAG, "Word selected: " + word);
+                Log.d(TAG, "Type selected: " + type);
 
                 // Start a fill query task
                 new FormFillQueryTask().execute(word, type);
@@ -107,9 +110,10 @@ public class UpdateWordFragment extends Fragment {
             Toast.makeText(this.getContext(), "Error! Select a word to update", Toast.LENGTH_SHORT).show();
             return;
         }
-        String[] tokens = wordSelector.getSelectedItem().toString().split("\\(");
-        String word = tokens[0];
-        String type = tokens[1].substring(0, tokens[1].length()-1);
+        String label = wordSelector.getSelectedItem().toString();
+        int m = label.lastIndexOf("(");
+        String word = label.substring(0, m);
+        String type = label.substring(m+1, label.length()-1);   // Removing parenthesis
         String newWord = wordTv.getText().toString().trim();
         String newType = typeTv.getSelectedItem().toString();
 
@@ -144,10 +148,10 @@ public class UpdateWordFragment extends Fragment {
     }
 
     @OnTextChanged(R.id.uTiet1) public void onWordTextChanged(CharSequence text) {
-        if(text.toString().trim().length() == 0) {
+        if(text.toString().trim().length() == 0 || wordSelector.getSelectedItemPosition() == 0) {
           updateWordButton.setEnabled(false);
         }
-        else {
+        else if(!updateWordButton.isEnabled()) {
           updateWordButton.setEnabled(true);
         }
     }
@@ -174,7 +178,7 @@ public class UpdateWordFragment extends Fragment {
 
         @Override
         public Cursor doInBackground(Void... voids) {
-            return DefaultWordDB.getInstance().rawQuery(String.format("SELECT %1$s, %2$s FROM %3$s ORDER BY %1$s ASC",
+            return DefaultWordDB.getInstance().rawQuery(String.format("SELECT %s, %s FROM %s",
                   WordDBOpenHelper.COLUMN_WORD,
                   WordDBOpenHelper.COLUMN_TYPE,
                   WordDBOpenHelper.TABLE_NAME), null);

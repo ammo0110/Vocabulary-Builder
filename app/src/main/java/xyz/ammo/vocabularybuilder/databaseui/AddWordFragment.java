@@ -98,7 +98,7 @@ public class AddWordFragment extends Fragment {
           searchButton.setEnabled(false);
           addWordButton.setEnabled(false);
         }
-        else {
+        else if(!addWordButton.isEnabled()) {
           searchButton.setEnabled(true);
           addWordButton.setEnabled(true);
         }
