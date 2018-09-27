@@ -6,5 +6,9 @@
     <item
         android:id="@+id/export_db"
         android:title="@string/export_db" />
-    <item android:title="@string/menu_choice3" />
+
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings" />
+
 </menu>

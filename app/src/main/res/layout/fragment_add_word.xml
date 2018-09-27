@@ -127,20 +127,7 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:id="@+id/addWordButton"
-        style="@style/ButtonMaterial"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
-        android:text="Add Word"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/searchButton"
-        app:layout_constraintTop_toBottomOf="@+id/til5" />
-
-    <Button
+    <android.support.design.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:id="@+id/searchButton"
         android:layout_width="wrap_content"
@@ -154,5 +141,17 @@
         app:layout_constraintEnd_toStartOf="@id/addWordButton"
         app:layout_constraintTop_toTopOf="@+id/addWordButton" />
 
+    <android.support.design.button.MaterialButton
+        android:id="@+id/addWordButton"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:text="Add Word"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/searchButton"
+        app:layout_constraintTop_toBottomOf="@+id/til5" />
 
 </android.support.constraint.ConstraintLayout>

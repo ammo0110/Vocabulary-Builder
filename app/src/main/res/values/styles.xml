@@ -1,36 +1,52 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/maroon</item>
+        <item name="colorPrimaryDark">@color/maroonDark</item>
+        <item name="colorAccent">@color/mustard</item>
     </style>
 
-    <style name="ButtonMaterial" parent="Widget.MaterialComponents.Button">
-      <item name="android:textAllCaps">true</item>
-      <item name="android:textSize">15sp</item>
+    <style name="AppTheme.Dark" parent="Theme.MaterialComponents" >
+        <item name="colorPrimary">@color/maroon</item>
+        <item name="colorPrimaryDark">@color/maroonDark</item>
+        <item name="colorAccent">@color/mustard</item>
+        <!-- <item name="android:windowBackground">@color/black</item> -->
+
+        <item name="android:buttonStyle">@style/Button.Dark</item>
     </style>
 
-    <style name="CenterWord" parent="TextAppearance.AppCompat">
+    <style name="Base.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="Button.Light" parent="Base.Button">
+
+    </style>
+
+    <style name="Button.Dark" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">15sp</item>
+        <item name="colorButtonNormal">#CCCCCC</item>
+    </style>
+
+    <style name="CenterWord" parent="TextAppearance.AppCompat.Body1">
         <item name="android:gravity">center</item>
         <item name="android:fontFamily">monospace</item>
     </style>
 
     <style name="Word" parent="CenterWord">
         <item name="android:textSize">40sp</item>
-        <item name="android:textColor">@color/airforceBlue</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Type" parent="CenterWord">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/airforceBlue</item>
         <item name="android:textStyle">italic</item>
     </style>
 
     <style name="Definition" parent="CenterWord">
-        <item name="android:textSize">25sp</item>
-        <item name="android:textColor">@color/amaranth</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 

@@ -21,7 +21,6 @@
 
     <Button
         android:id="@+id/choice1"
-        style="@style/ButtonMaterial"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/menu_choice1"
@@ -31,7 +30,6 @@
         app:layout_constraintTop_toBottomOf="@+id/Title" />
 
 	<Button
-		style="@style/ButtonMaterial"
 		android:id="@+id/choice2"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"

@@ -3,6 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
     <color name="airforceBlue">#00308F</color>
     <color name="amaranth">#E52B50</color>
+    <color name="black">#222222</color>
+    <color name="paleWhite">#FFFFEA</color>
+
+    <color name="maroonDark">#80002A</color>
+    <color name="maroon">#B3003B</color>
+    <color name="mustard">#FFA31A</color>
+    <color name="skyblue">#3399FF</color>
 </resources>

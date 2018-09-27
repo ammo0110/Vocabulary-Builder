@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:resizeableActivity="false"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.Dark">
         <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,13 +19,15 @@
         </activity>
         <activity
             android:name=".GameActivity"
-            android:label="Word Attack"
+            android:label="@string/menu_choice1"
             android:configChanges="orientation|screenSize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
         </activity>
-        <activity android:name=".SettingsActivity">
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
