@@ -7,21 +7,22 @@ import android.database.sqlite.SQLiteDatabase;
 
 import xyz.ammo.vocabularybuilder.MyApplication;
 
-public class DefaultWordDB {
+public class WordSQLiteDatabase {
 
-    private static final DefaultWordDB mInstance = new DefaultWordDB(); // Single instance
+    // Default Singleton Instance
+    private static final WordSQLiteDatabase mInstance = new WordSQLiteDatabase();
 
     private Context mContext;   // Global Application Context
     private String  dbName = "UserWords.db";     // Name of the default database
     private WordDBOpenHelper mHelper; // Used to open and access default database
 
-    private DefaultWordDB() {
+    private WordSQLiteDatabase() {
         mContext = MyApplication.getMyAppContext();
         String dbPath = mContext.getFilesDir() + "/" + dbName;
         mHelper = new WordDBOpenHelper(mContext, dbPath);
     }
 
-    public static DefaultWordDB getInstance() {
+    public static WordSQLiteDatabase getDefaultInstance() {
         return mInstance;
     }
 
@@ -51,5 +52,13 @@ public class DefaultWordDB {
         return mHelper.getWritableDatabase().update(WordDBOpenHelper.TABLE_NAME, values,
                 String.format("%s=? AND %s=?", WordDBOpenHelper.COLUMN_WORD, WordDBOpenHelper.COLUMN_TYPE),
                 new String[] {prevWord, prevType});
+    }
+
+    public int getWordCount() {
+        Cursor temp = mHelper.getWritableDatabase().rawQuery(String.format("SELECT COUNT(%s) FROM %s",
+                WordDBOpenHelper.COLUMN_WORD, WordDBOpenHelper.TABLE_NAME), null);
+        int ret = temp.moveToFirst() ? temp.getInt(0) : -1;
+        temp.close();
+        return ret;
     }
 }

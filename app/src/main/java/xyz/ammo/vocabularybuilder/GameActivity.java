@@ -25,6 +25,7 @@ import ru.noties.markwon.renderer.SpannableRenderer;
 
 import xyz.ammo.vocabularybuilder.utils.Intents;
 import xyz.ammo.vocabularybuilder.word.SQLiteWordEngine;
+import xyz.ammo.vocabularybuilder.word.WordEngine;
 import xyz.ammo.vocabularybuilder.word.WordTuple;
 
 public class GameActivity extends AppCompatActivity {
@@ -33,7 +34,7 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.type) TextView typeTv;
     @BindView(R.id.meaning) TextView meaningTv;
 
-    private SQLiteWordEngine engine;
+    private WordEngine engine;
     private Runnable meaningChangeRunnable;
     private static final int MILLIS_DELAY_IN_SHOWING_MEANING = 1000;
     private static final String TAG = "MyGameActivity";
@@ -50,8 +51,6 @@ public class GameActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         engine = new SQLiteWordEngine();
-        this.randomize = false;
-
         // If database is empty, exit game
         if(engine.getSize() == 0) {
             Toast.makeText(this, "Database is empty, please add a word first", Toast.LENGTH_SHORT).show();
@@ -59,7 +58,7 @@ public class GameActivity extends AppCompatActivity {
         }
         else {
             // Show the first word on the screen
-            wordTuple = engine.getNext(randomize);
+            wordTuple = randomize ? engine.getRandom() : engine.getNext();
             Log.d(TAG, "" + wordTuple);
             wordTv.setText(wordTuple.getWord());
             typeTv.setText(wordTuple.getType());
@@ -73,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
     @OnClick(R.id.meaning) void nextWord() {
         meaningTv.removeCallbacks(meaningChangeRunnable);
 
-        wordTuple = engine.getNext(randomize);
+        wordTuple = randomize ? engine.getRandom() : engine.getNext();
         Log.d(TAG, "" + wordTuple);
         wordTv.setText(wordTuple.getWord());
         typeTv.setText(wordTuple.getType());
@@ -131,7 +130,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy invoked");
-        engine.closeEngine();
     }
 
     private static class TextChangeRunnable implements Runnable {

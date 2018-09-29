@@ -21,7 +21,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 import xyz.ammo.vocabularybuilder.R;
-import xyz.ammo.vocabularybuilder.storage.DefaultWordDB;
+import xyz.ammo.vocabularybuilder.storage.WordSQLiteDatabase;
 import xyz.ammo.vocabularybuilder.utils.Intents;
 
 public class AddWordFragment extends Fragment {
@@ -66,7 +66,7 @@ public class AddWordFragment extends Fragment {
     }
 
     @OnClick(R.id.addWordButton) public void addWord() {
-        DefaultWordDB db = DefaultWordDB.getInstance();
+        WordSQLiteDatabase db = WordSQLiteDatabase.getDefaultInstance();
         long ret = db.insert(wordTv.getText().toString(), typeTv.getSelectedItem().toString(),
                              meaningTv.getText().toString(), synonymTv.getText().toString(),
                              exampleTv.getText().toString());
