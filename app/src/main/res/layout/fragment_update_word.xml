@@ -41,7 +41,7 @@
             style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Word" />
+            android:hint="@string/hint_word" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Type"
+        android:text="@string/hint_type"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/uTiet2"
         app:layout_constraintEnd_toEndOf="@id/uTiet2"
@@ -93,7 +93,7 @@
             style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Short Meaning" />
+            android:hint="@string/hint_meaning" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -118,7 +118,7 @@
             style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Synonyms" />
+            android:hint="@string/hint_synonyms" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -142,7 +142,7 @@
             style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Example"
+            android:hint="@string/hint_example"
             android:minHeight="100dp" />
 
     </android.support.design.widget.TextInputLayout>
@@ -155,7 +155,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Update Word"
+        android:text="@string/btn_update_word"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -13,7 +13,8 @@
         android:paddingTop="15dp"
         android:paddingEnd="0dp"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-condensed" />
 
     <TextView
         android:id="@+id/spinner_type"
@@ -25,6 +26,7 @@
         android:paddingEnd="10dp"
         android:paddingBottom="15dp"
         android:textSize="22sp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:fontFamily="sans-serif-condensed" />
 
 </LinearLayout>

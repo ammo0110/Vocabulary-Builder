@@ -20,11 +20,11 @@
 
     <style name="Button.Dark" parent="ThemeOverlay.MaterialComponents.Dark">
         <item name="android:textSize">15sp</item>
+        <item name="android:textAppearanceButton">@style/TextAppearance.AppCompat.Button</item>
     </style>
 
-    <style name="CenterWord" parent="TextAppearance.AppCompat.Body1">
+    <style name="CenterWord" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:gravity">center</item>
-        <item name="android:fontFamily">monospace</item>
     </style>
 
     <style name="Word" parent="CenterWord">
