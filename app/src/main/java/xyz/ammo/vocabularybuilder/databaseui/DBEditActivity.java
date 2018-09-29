@@ -23,6 +23,11 @@ public class DBEditActivity extends AppCompatActivity {
         addWordFragment = AddWordFragment.newInstance();
         updateWordFragment = null;
 
+        // Set first fragment by default
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.scrollView, addWordFragment);
+        transaction.commit();
+
         BottomNavigationView bnv = findViewById(R.id.bottomNavigationView);
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -51,12 +56,6 @@ public class DBEditActivity extends AppCompatActivity {
                     return false;
             }
         });
-
-        // Set first fragment by default
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.scrollView, addWordFragment);
-        transaction.commit();
-
     }
     
     @Override

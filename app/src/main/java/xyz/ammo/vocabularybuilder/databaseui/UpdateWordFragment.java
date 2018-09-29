@@ -1,14 +1,9 @@
 package xyz.ammo.vocabularybuilder.databaseui;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +23,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 import xyz.ammo.vocabularybuilder.R;
-import xyz.ammo.vocabularybuilder.storage.DefaultWordDB;
+import xyz.ammo.vocabularybuilder.storage.WordSQLiteDatabase;
 import xyz.ammo.vocabularybuilder.storage.WordDBOpenHelper;
 
 public class UpdateWordFragment extends Fragment {
@@ -43,8 +38,8 @@ public class UpdateWordFragment extends Fragment {
 
     @BindView(R.id.updateWordButton) Button updateWordButton;
 
-    private ArrayAdapter<SpannableString> adapter;
-    private ArrayList<SpannableString> mList;   // The list backing the array adapter
+    private ArrayAdapter<String> mAdapter;
+    private ArrayList<String> mList;   // The list backing the array adapter
 
     private static final String TAG = "MyUpdateWordFragment";
 
@@ -69,10 +64,10 @@ public class UpdateWordFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         typeTv.setAdapter(ArrayAdapter.createFromResource(this.getContext(), R.array.word_types, android.R.layout.simple_spinner_dropdown_item));
-        mList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.select_dialog_item, mList);
-        adapter.add(new SpannableString("Select Word to Update"));
-        wordSelector.setAdapter(adapter);
+        mList = new ArrayList<>(WordSQLiteDatabase.getDefaultInstance().getWordCount());
+        mAdapter = new MyArrayAdapter(this.getContext(), R.layout.wordtype_spinner_item, mList);
+        mAdapter.add("Select Word to Update");
+        wordSelector.setAdapter(mAdapter);
         updateWordButton.setEnabled(false);
 
         wordSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -100,8 +95,7 @@ public class UpdateWordFragment extends Fragment {
             }
         });
 
-        SpinnerQueryTask queryTask = new SpinnerQueryTask(adapter);
-        queryTask.execute();
+        new SpinnerQueryTask().execute();
         return view;
     }
 
@@ -117,7 +111,7 @@ public class UpdateWordFragment extends Fragment {
         String newWord = wordTv.getText().toString().trim();
         String newType = typeTv.getSelectedItem().toString();
 
-        DefaultWordDB db = DefaultWordDB.getInstance();
+        WordSQLiteDatabase db = WordSQLiteDatabase.getDefaultInstance();
         int ret = db.update(newWord, newType, meaningTv.getText().toString(),
                 synonymTv.getText().toString(), exampleTv.getText().toString(), word, type);
 
@@ -125,14 +119,10 @@ public class UpdateWordFragment extends Fragment {
             Log.d(TAG, "Word updated in database");
 
             // Change the entry text
-            SpannableString s = new SpannableString(newWord + "(" + newType + ")");
-            s.setSpan(new StyleSpan(Typeface.BOLD), 0, newWord.length(), Spanned.SPAN_COMPOSING);
-            s.setSpan(new StyleSpan(Typeface.ITALIC), newWord.length(), newWord.length()+newType.length()+2, Spanned.SPAN_COMPOSING);
-            mList.set(wordSelector.getSelectedItemPosition(), s);
-            adapter.notifyDataSetChanged();
+            mList.set(wordSelector.getSelectedItemPosition(), newWord + "(" + newType + ")");
+            mAdapter.notifyDataSetChanged();
 
             Toast.makeText(this.getContext(), "Word updated in database", Toast.LENGTH_SHORT).show();
-
             // Reset the form
             wordSelector.setSelection(0);
             wordTv.setText("");
@@ -156,29 +146,11 @@ public class UpdateWordFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.d(TAG, "onAttach invoked");
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.d(TAG, "onDetach invoked");
-    }
-
     private class SpinnerQueryTask extends AsyncTask<Void, Void, Cursor> {
-
-        private ArrayAdapter<SpannableString> mAdapter;
-
-        public SpinnerQueryTask(ArrayAdapter<SpannableString> adapter) {
-            mAdapter = adapter;
-        }
 
         @Override
         public Cursor doInBackground(Void... voids) {
-            return DefaultWordDB.getInstance().rawQuery(String.format("SELECT %s, %s FROM %s",
+            return WordSQLiteDatabase.getDefaultInstance().rawQuery(String.format("SELECT %s, %s FROM %s",
                   WordDBOpenHelper.COLUMN_WORD,
                   WordDBOpenHelper.COLUMN_TYPE,
                   WordDBOpenHelper.TABLE_NAME), null);
@@ -189,10 +161,7 @@ public class UpdateWordFragment extends Fragment {
             while(cur.moveToNext()) {
                 String word = cur.getString(0);
                 String type = cur.getString(1);
-                SpannableString s = new SpannableString(word + "(" + type + ")");
-                s.setSpan(new StyleSpan(Typeface.BOLD), 0, word.length(), Spanned.SPAN_COMPOSING);
-                s.setSpan(new StyleSpan(Typeface.ITALIC), word.length(), word.length()+type.length()+2, Spanned.SPAN_COMPOSING);
-                mAdapter.add(s);
+                mAdapter.add(word + "(" + type + ")");
             }
             cur.close();
         }
@@ -202,7 +171,7 @@ public class UpdateWordFragment extends Fragment {
 
         @Override
         public Cursor doInBackground(String... strings) {
-            return DefaultWordDB.getInstance().rawQuery(String.format("SELECT %1$s, %2$s, %3$s, %4$s, %5$s FROM %6$s WHERE %1$s=?  AND %2$s=?",
+            return WordSQLiteDatabase.getDefaultInstance().rawQuery(String.format("SELECT %1$s, %2$s, %3$s, %4$s, %5$s FROM %6$s WHERE %1$s=? AND %2$s=?",
                     WordDBOpenHelper.COLUMN_WORD,
                     WordDBOpenHelper.COLUMN_TYPE,
                     WordDBOpenHelper.COLUMN_MEANING,
