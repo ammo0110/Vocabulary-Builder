@@ -10,24 +10,16 @@
         <item name="colorPrimary">@color/maroon</item>
         <item name="colorPrimaryDark">@color/maroonDark</item>
         <item name="colorAccent">@color/mustard</item>
-        <!-- <item name="android:windowBackground">@color/black</item> -->
 
         <item name="android:buttonStyle">@style/Button.Dark</item>
     </style>
 
-    <style name="Base.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:textAllCaps">true</item>
+    <style name="Button.Light" parent="ThemeOverlay.MaterialComponents.Light">
         <item name="android:textSize">15sp</item>
-    </style>
-
-    <style name="Button.Light" parent="Base.Button">
-
     </style>
 
     <style name="Button.Dark" parent="ThemeOverlay.MaterialComponents.Dark">
-        <item name="android:textAllCaps">true</item>
         <item name="android:textSize">15sp</item>
-        <item name="colorButtonNormal">#CCCCCC</item>
     </style>
 
     <style name="CenterWord" parent="TextAppearance.AppCompat.Body1">
