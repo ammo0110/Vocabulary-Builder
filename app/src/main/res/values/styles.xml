@@ -42,4 +42,16 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Settings.Hint" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textColor">@color/mustard</item>
+    </style>
+
+    <style name="Settings.Title" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Settings.Value" parent="TextAppearance.AppCompat.Small">
+
+    </style>
+
 </resources>

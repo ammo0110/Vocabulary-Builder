@@ -69,14 +69,14 @@ public class TimeIntervalDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.seekbar_alert_dialog, null);
 
         final TextView label = view.findViewById(R.id.valueLabel);
-        label.setText(String.format("%.1fs", mInterval/1000.0));
+        label.setText(String.format("%.1f", mInterval/1000.0));
         SeekBar seek = view.findViewById(R.id.seekBar);
         seek.setProgress((mInterval-offset)/slope);
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 mInterval = i*slope + offset;
-                label.setText(String.format("%.1fs", mInterval/1000.0));
+                label.setText(String.format("%.1f", mInterval/1000.0));
             }
 
             @Override

@@ -31,4 +31,10 @@
 
     <string name="no_intent_handler">There are no applications available to handle this action.</string>
 
+    <!-- Settings related strings -->
+    <string name="settings_hint1">Time Attack</string>
+    <string name="settings_hint2">General</string>
+    <string name="settings_op1">Time Interval</string>
+    <string name="settings_op2">Use Dark Theme</string>
+
 </resources>
