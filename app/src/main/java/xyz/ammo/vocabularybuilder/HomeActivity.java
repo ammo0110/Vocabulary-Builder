@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import butterknife.ButterKnife;
 
 import xyz.ammo.vocabularybuilder.databaseui.DBEditActivity;
+import xyz.ammo.vocabularybuilder.settings.SettingsActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -61,6 +62,9 @@ public class HomeActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.export_db:
                 exportDatabase();
+                return true;
+            case R.id.settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

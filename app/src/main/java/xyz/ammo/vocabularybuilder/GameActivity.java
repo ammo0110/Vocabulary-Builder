@@ -1,7 +1,7 @@
 package xyz.ammo.vocabularybuilder;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +36,7 @@ public class GameActivity extends AppCompatActivity {
 
     private WordEngine engine;
     private Runnable meaningChangeRunnable;
-    private static final int MILLIS_DELAY_IN_SHOWING_MEANING = 1000;
+    private int mInterval;
     private static final String TAG = "MyGameActivity";
 
     private WordTuple wordTuple;
@@ -49,6 +49,9 @@ public class GameActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate invoked");
 
         ButterKnife.bind(this);
+
+        SharedPreferences prefs = MyApplication.getDefaultSharedPreferences();
+        mInterval = prefs.getInt(MyApplication.TIME_INTERVAL, 1000);
 
         engine = new SQLiteWordEngine();
         // If database is empty, exit game
@@ -65,7 +68,7 @@ public class GameActivity extends AppCompatActivity {
             meaningTv.setText("");  //Empty, if user waits then show else move on
 
             meaningChangeRunnable = new TextChangeRunnable(meaningTv, wordTuple.getShortMeaning());
-            meaningTv.postDelayed(meaningChangeRunnable, MILLIS_DELAY_IN_SHOWING_MEANING);
+            meaningTv.postDelayed(meaningChangeRunnable, mInterval);
         }
     }
 
@@ -79,7 +82,7 @@ public class GameActivity extends AppCompatActivity {
         meaningTv.setText("");  //Empty, if user waits then show else move on
 
         meaningChangeRunnable = new TextChangeRunnable(meaningTv, wordTuple.getShortMeaning());
-        meaningTv.postDelayed(meaningChangeRunnable, MILLIS_DELAY_IN_SHOWING_MEANING);
+        meaningTv.postDelayed(meaningChangeRunnable, mInterval);
     }
 
     @OnClick(R.id.fab) void viewData() {
@@ -91,12 +94,7 @@ public class GameActivity extends AppCompatActivity {
         final Node node = parser.parse(wordTuple.markdownify());
         builder.setTitle(wordTuple.getWord())
                 .setMessage(renderer.render(config, node))
-                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing
-                    }
-                })
+                .setPositiveButton(android.R.string.ok, null)
                 .show();
     }
 
