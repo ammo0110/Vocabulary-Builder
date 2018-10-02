@@ -3,7 +3,8 @@ package xyz.ammo.vocabularybuilder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,16 +13,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-
 import butterknife.ButterKnife;
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import ru.noties.markwon.Markwon;
-import ru.noties.markwon.SpannableConfiguration;
-import ru.noties.markwon.renderer.SpannableRenderer;
 
 import xyz.ammo.vocabularybuilder.utils.Intents;
 import xyz.ammo.vocabularybuilder.word.SQLiteWordEngine;
@@ -40,6 +34,7 @@ public class GameActivity extends AppCompatActivity {
     private static final String TAG = "MyGameActivity";
 
     private WordTuple wordTuple;
+    public static final String CURRENT_WORD = "CurrentWord";
     private boolean randomize;
 
     @Override
@@ -67,7 +62,7 @@ public class GameActivity extends AppCompatActivity {
             typeTv.setText(wordTuple.getType());
             meaningTv.setText("");  //Empty, if user waits then show else move on
 
-            meaningChangeRunnable = new TextChangeRunnable(meaningTv, wordTuple.getShortMeaning());
+            meaningChangeRunnable = new TextChangeRunnable(meaningTv, wordTuple.getMeaning());
             meaningTv.postDelayed(meaningChangeRunnable, mInterval);
         }
     }
@@ -81,21 +76,19 @@ public class GameActivity extends AppCompatActivity {
         typeTv.setText(wordTuple.getType());
         meaningTv.setText("");  //Empty, if user waits then show else move on
 
-        meaningChangeRunnable = new TextChangeRunnable(meaningTv, wordTuple.getShortMeaning());
+        meaningChangeRunnable = new TextChangeRunnable(meaningTv, wordTuple.getMeaning());
         meaningTv.postDelayed(meaningChangeRunnable, mInterval);
     }
 
     @OnClick(R.id.fab) void viewData() {
-        AlertDialog.Builder builder;
-        builder = new AlertDialog.Builder(this);
-        final Parser parser = Markwon.createParser();
-        final SpannableConfiguration config = SpannableConfiguration.create(this);
-        final SpannableRenderer renderer = new SpannableRenderer();
-        final Node node = parser.parse(wordTuple.markdownify());
-        builder.setTitle(wordTuple.getWord())
-                .setMessage(renderer.render(config, node))
-                .setPositiveButton(android.R.string.ok, null)
-                .show();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if(prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        WordInfoDialogFragment widf = WordInfoDialogFragment.newInstance(wordTuple);
+        widf.show(ft, "dialog");
     }
 
     @Override
