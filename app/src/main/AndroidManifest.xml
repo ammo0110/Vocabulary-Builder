@@ -7,9 +7,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/aard"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:resizeableActivity="false"
-        android:theme="@style/AppTheme.Dark">
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.Light">
         <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,23 +19,23 @@
         </activity>
         <activity
             android:name=".GameActivity"
-            android:label="@string/home_choice1"
-            android:configChanges="orientation|screenSize" >
+            android:configChanges="orientation|screenSize"
+            android:label="@string/home_choice1">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
         </activity>
         <activity
             android:name=".settings.SettingsActivity"
-            android:label="@string/settings" >
+            android:label="@string/settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
         </activity>
         <activity
             android:name=".databaseui.DBEditActivity"
-            android:label="@string/home_choice2"
-            android:configChanges="orientation|screenSize" >
+            android:configChanges="orientation|screenSize"
+            android:label="@string/home_choice2">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />

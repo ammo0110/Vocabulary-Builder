@@ -1,16 +1,18 @@
 package xyz.ammo.vocabularybuilder.databaseui;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import xyz.ammo.vocabularybuilder.BaseActivity;
+import xyz.ammo.vocabularybuilder.MyApplication;
 import xyz.ammo.vocabularybuilder.R;
 
-public class DBEditActivity extends AppCompatActivity {
+public class DBEditActivity extends BaseActivity {
 
     private Fragment addWordFragment;
     private Fragment updateWordFragment;

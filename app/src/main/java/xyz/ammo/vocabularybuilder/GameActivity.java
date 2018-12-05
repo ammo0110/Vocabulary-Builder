@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,7 +21,7 @@ import xyz.ammo.vocabularybuilder.word.SQLiteWordEngine;
 import xyz.ammo.vocabularybuilder.word.WordEngine;
 import xyz.ammo.vocabularybuilder.word.WordTuple;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends BaseActivity {
 
     @BindView(R.id.word) TextView wordTv;
     @BindView(R.id.type) TextView typeTv;
@@ -39,13 +38,13 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = MyApplication.getDefaultSharedPreferences();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         Log.d(TAG, "onCreate invoked");
 
         ButterKnife.bind(this);
 
-        SharedPreferences prefs = MyApplication.getDefaultSharedPreferences();
         mInterval = prefs.getInt(MyApplication.TIME_INTERVAL, 1000);
 
         engine = new SQLiteWordEngine();

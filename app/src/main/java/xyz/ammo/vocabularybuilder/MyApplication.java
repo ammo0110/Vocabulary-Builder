@@ -11,6 +11,7 @@ public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
 
     public static final String TIME_INTERVAL = "TimeInterval";
+    public static final String DARK_THEME = "DarkTheme";
 
     @Override
     public void onCreate() {

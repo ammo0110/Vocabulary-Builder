@@ -19,13 +19,12 @@
             android:textAppearance="@style/Settings.Hint" />
 
         <LinearLayout
-            android:id="@+id/timeIntervalRow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackground"
-            android:onClick="showDialog"
+            android:onClick="showTimeIntervalDialog"
             android:orientation="horizontal">
 
             <TextView
@@ -66,6 +65,7 @@
             android:textAppearance="@style/Settings.Hint" />
 
         <LinearLayout
+            android:onClick="switchTheme"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
@@ -84,7 +84,8 @@
                 android:text="@string/settings_op2" />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/switchTheme"
+                android:onClick="switchTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

@@ -3,7 +3,6 @@ package xyz.ammo.vocabularybuilder;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,7 +21,7 @@ import butterknife.ButterKnife;
 import xyz.ammo.vocabularybuilder.databaseui.DBEditActivity;
 import xyz.ammo.vocabularybuilder.settings.SettingsActivity;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
     public static final String TAG = "MyHomeActivity";
 
